@@ -1,6 +1,6 @@
 import pytest
 
-from crystal.tables.column_names import fetch_table_columns, get_primary_key, filter_system_columns, find_ru_columns, \
+from crystal.tables.columns import fetch_table_columns, get_primary_key, filter_system_columns, find_ru_columns, \
     fetch_text_columns
 from crystal.utils.utils import iter_len
 

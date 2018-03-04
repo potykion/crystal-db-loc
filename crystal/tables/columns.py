@@ -27,16 +27,23 @@ def fetch_table_columns(table):
 
 def identify_columns_types(table, columns):
     def _format_column_type(info):
-        if info['DATA_TYPE'] in CHAR_TYPES:
-            return F"{info['DATA_TYPE']}({info['CHARACTER_MAXIMUM_LENGTH']})"
+        if info['is_computed']:
+            formula = get_computed_column_formula(table, info['name'])
+            return f'as {formula}'
+        elif info['type_name'] in CHAR_TYPES:
+            return F"{info['type_name']}({info['max_length']})"
         else:
-            return info['DATA_TYPE']
+            return info['type_name']
 
     columns_str = ','.join(f"'{column}'" for column in columns)
-    query = F"SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{table}' AND COLUMN_NAME IN ({columns_str})"
+
+    query = (
+        f"SELECT *, TYPE_NAME(system_type_id) as type_name FROM sys.columns "
+        f"WHERE name in ({columns_str}) AND object_id = OBJECT_ID('{table}')"
+    )
     infos = db.query(query)
     return {
-        info['COLUMN_NAME']: _format_column_type(info)
+        info['name']: _format_column_type(info)
         for info in infos
     }
 
@@ -80,3 +87,8 @@ def find_ru_columns(table):
                 columns.add(column)
 
     return columns
+
+
+def get_computed_column_formula(table, column):
+    columns = db.query(f"SELECT * FROM sys.computed_columns WHERE name = '{column}' and object_id = OBJECT_ID('{table}')")
+    return columns.first()['definition']

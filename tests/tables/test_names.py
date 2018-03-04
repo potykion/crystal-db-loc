@@ -1,4 +1,4 @@
-from crystal.tables.table_names import fetch_table_names, filter_system_tables
+from crystal.tables.tables import fetch_table_names, filter_system_tables
 
 
 def test_fetch_table_names():

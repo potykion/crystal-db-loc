@@ -1,8 +1,10 @@
+from itertools import chain
 from operator import itemgetter
 
-from crystal.tables.column_names import filter_system_columns, find_ru_columns, \
+from crystal.tables.columns import filter_system_columns, find_ru_columns, \
     fetch_text_columns, identify_columns_types, get_primary_key
 from crystal.tables.constraints import list_columns_constraints
+from crystal.tables.indexes import list_column_indexes
 from crystal.utils.utils import iter_len
 
 
@@ -48,11 +50,20 @@ def localize_has_ru_columns_table(has_ru_columns_table):
 
     primary_key = get_primary_key(has_ru_columns_table)
 
-    constraints = list_columns_constraints(has_ru_columns_table, ru_columns)
-    drop_constraints_str = '\n\t\t'.join(
+    constraints = sorted(list_columns_constraints(has_ru_columns_table, ru_columns))
+    drop_constraints = (
         f"ALTER TABLE dbo.{has_ru_columns_table}Invariant DROP CONSTRAINT {constraint};"
         for constraint in constraints
     )
+
+    indexes = list_column_indexes(has_ru_columns_table, ru_columns)
+    drop_indexes = (
+        f'DROP INDEX {index} ON {has_ru_columns_table}Invariant;'
+        for index in indexes
+        if index not in constraints
+    )
+
+    drop_str = '\n\t'.join(chain(drop_constraints, drop_indexes))
 
     return f'''
     --- Таблица {has_ru_columns_table}
@@ -81,7 +92,7 @@ def localize_has_ru_columns_table(has_ru_columns_table):
     SELECT {primary_key} AS {has_ru_columns_table}Id, {ru_columns_str}
     FROM {has_ru_columns_table}Invariant;
     GO
-    -- Удаляем "русские" столбцы, а также заыисимости
-    {drop_constraints_str}
+    -- Удаляем "русские" столбцы, а также зависимости
+    {drop_str}
     ALTER TABLE dbo.{has_ru_columns_table}Invariant DROP COLUMN {ru_columns_str};
     '''
