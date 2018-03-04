@@ -2,7 +2,7 @@ from operator import itemgetter
 
 from crystal.tables.column_names import filter_system_columns, find_ru_columns, \
     fetch_text_columns, identify_columns_types, get_primary_key
-from crystal.tables.constraints import list_constraints, filter_unique_constraints
+from crystal.tables.constraints import list_columns_constraints
 from crystal.utils.utils import iter_len
 
 
@@ -48,9 +48,9 @@ def localize_has_ru_columns_table(has_ru_columns_table):
 
     primary_key = get_primary_key(has_ru_columns_table)
 
-    constraints = filter_unique_constraints(list_constraints(has_ru_columns_table))
+    constraints = list_columns_constraints(has_ru_columns_table, ru_columns)
     drop_constraints_str = '\n\t\t'.join(
-        f"ALTER TABLE dbo.{has_ru_columns_table}Invariant DROP CONSTRAINT {constraint['CONSTRAINT_NAME']};"
+        f"ALTER TABLE dbo.{has_ru_columns_table}Invariant DROP CONSTRAINT {constraint};"
         for constraint in constraints
     )
 
