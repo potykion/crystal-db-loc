@@ -8,4 +8,6 @@ def test_fetch_table_names():
 
 def test_filter_system_tables():
     tables = filter_system_tables(fetch_table_names())
-    assert len(list(tables)) == 43 - 7
+    underscore_tables = 7
+    users_table = 1
+    assert len(list(tables)) == 43 - underscore_tables - users_table

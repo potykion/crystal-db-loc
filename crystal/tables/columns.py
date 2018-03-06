@@ -90,5 +90,34 @@ def find_ru_columns(table):
 
 
 def get_computed_column_formula(table, column):
-    columns = db.query(f"SELECT * FROM sys.computed_columns WHERE name = '{column}' and object_id = OBJECT_ID('{table}')")
+    columns = db.query(
+        f"SELECT * FROM sys.computed_columns WHERE name = '{column}' and object_id = OBJECT_ID('{table}')")
     return columns.first()['definition']
+
+
+def drop_computed_columns(table, columns):
+    columns_str = ','.join(f"'{column}'" for column in columns)
+    query = (
+        f"SELECT *, TYPE_NAME(system_type_id) as type_name FROM sys.columns "
+        f"WHERE name in ({columns_str}) AND object_id = OBJECT_ID('{table}') "
+        "AND is_computed = 0"
+    )
+    non_computed_columns = db.query(query)
+    return [
+        column['name']
+        for column in non_computed_columns
+    ]
+
+
+def filter_computed_columns(table, columns):
+    columns_str = ','.join(f"'{column}'" for column in columns)
+    query = (
+        f"SELECT *, TYPE_NAME(system_type_id) as type_name FROM sys.columns "
+        f"WHERE name in ({columns_str}) AND object_id = OBJECT_ID('{table}') "
+        "AND is_computed = 1"
+    )
+    non_computed_columns = db.query(query)
+    return [
+        column['name']
+        for column in non_computed_columns
+    ]

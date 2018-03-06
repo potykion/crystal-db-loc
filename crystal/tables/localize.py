@@ -2,7 +2,7 @@ from itertools import chain
 from operator import itemgetter
 
 from crystal.tables.columns import filter_system_columns, find_ru_columns, \
-    fetch_text_columns, identify_columns_types, get_primary_key
+    fetch_text_columns, identify_columns_types, get_primary_key, drop_computed_columns, filter_computed_columns
 from crystal.tables.constraints import list_columns_constraints
 from crystal.tables.indexes import list_column_indexes
 from crystal.utils.utils import iter_len
@@ -30,14 +30,16 @@ def localize_only_ru_columns_table(only_ru_columns_table):
     ALTER TABLE dbo.{only_ru_columns_table} ADD LanguageID int NOT NULL DEFAULT(1);
     GO    
     --- Добавляем Language к названию
-    sp_rename {only_ru_columns_table} {only_ru_columns_table}Language;
+    sp_rename '{only_ru_columns_table}', '{only_ru_columns_table}Language';
     GO
     '''
 
 
 def localize_has_ru_columns_table(has_ru_columns_table):
     ru_columns = tuple(filter_system_columns(find_ru_columns(has_ru_columns_table)))
-    ru_columns_str = ', '.join(sorted(ru_columns))
+    ru_columns_str = ', '.join(sorted(drop_computed_columns(has_ru_columns_table, ru_columns)))
+    computed_ru_columns_str = ', '.join(sorted(filter_computed_columns(has_ru_columns_table, ru_columns)))
+    drop_columns_str = ', '.join(filter(None, [computed_ru_columns_str, ru_columns_str]))
 
     ru_columns_with_types = sorted(
         identify_columns_types(has_ru_columns_table, ru_columns).items(),
@@ -63,15 +65,15 @@ def localize_has_ru_columns_table(has_ru_columns_table):
         if index not in constraints
     )
 
-    drop_str = '\n\t'.join(chain(drop_constraints, drop_indexes))
+    drop_dependencies_str = '\n\t'.join(chain(drop_constraints, drop_indexes))
 
     return f'''
     --- Таблица {has_ru_columns_table}
     --- Переименовываем {has_ru_columns_table}
-    sp_rename {has_ru_columns_table}, {has_ru_columns_table}Invariant;
+    sp_rename '{has_ru_columns_table}', '{has_ru_columns_table}Invariant';
     GO
     --- Создаем таблицу {has_ru_columns_table}Language
-    CREATE TABLE dbo.{has_ru_columns_table} 
+    CREATE TABLE dbo.{has_ru_columns_table}Language
     (
         ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
         {has_ru_columns_table}ID INT NOT NULL,
@@ -80,9 +82,9 @@ def localize_has_ru_columns_table(has_ru_columns_table):
     );
     GO    
     --- Создаем FK для {has_ru_columns_table}Language
-    ALTER TABLE dbo.{has_ru_columns_table}Laguage
+    ALTER TABLE dbo.{has_ru_columns_table}Language
     ADD CONSTRAINT FK_{has_ru_columns_table}Language_{has_ru_columns_table}Invariant FOREIGN KEY ({has_ru_columns_table}ID)
-        REFERENCES dbo.{has_ru_columns_table} ({primary_key})     
+        REFERENCES dbo.{has_ru_columns_table}Invariant ({primary_key})     
         ON DELETE CASCADE    
         ON UPDATE CASCADE    
     ;    
@@ -93,6 +95,7 @@ def localize_has_ru_columns_table(has_ru_columns_table):
     FROM {has_ru_columns_table}Invariant;
     GO
     -- Удаляем "русские" столбцы, а также зависимости
-    {drop_str}
-    ALTER TABLE dbo.{has_ru_columns_table}Invariant DROP COLUMN {ru_columns_str};
+    {drop_dependencies_str}
+    ALTER TABLE dbo.{has_ru_columns_table}Invariant DROP COLUMN {drop_columns_str};
+    GO
     '''

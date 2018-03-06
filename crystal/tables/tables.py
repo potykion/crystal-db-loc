@@ -9,4 +9,4 @@ def fetch_table_names():
 
 
 def filter_system_tables(tables: Iterable[str]):
-    yield from (table for table in tables if table[0].isupper())
+    yield from (table for table in tables if table[0].isupper() and table not in ['Users'])
