@@ -2,7 +2,8 @@ from itertools import chain
 from operator import itemgetter
 
 from crystal.tables.columns import filter_system_columns, find_ru_columns, \
-    fetch_text_columns, identify_columns_types, get_primary_key, drop_computed_columns, filter_computed_columns
+    fetch_text_columns, identify_columns_types, get_primary_key, drop_computed_columns, filter_computed_columns, \
+    fetch_table_columns
 from crystal.tables.constraints import list_columns_constraints
 from crystal.tables.indexes import list_column_indexes
 from crystal.utils.utils import iter_len
@@ -38,8 +39,31 @@ def localize_only_ru_columns_table(only_ru_columns_table):
 def localize_has_ru_columns_table(has_ru_columns_table):
     ru_columns = tuple(filter_system_columns(find_ru_columns(has_ru_columns_table)))
     ru_columns_str = ', '.join(sorted(drop_computed_columns(has_ru_columns_table, ru_columns)))
-    computed_ru_columns_str = ', '.join(sorted(filter_computed_columns(has_ru_columns_table, ru_columns)))
+    computed_columns = sorted(filter_computed_columns(has_ru_columns_table, ru_columns))
+    computed_ru_columns_str = ', '.join(computed_columns)
     drop_columns_str = ', '.join(filter(None, [computed_ru_columns_str, ru_columns_str]))
+
+    index_columns_str = f'{has_ru_columns_table}ID, LanguageID'
+    if computed_columns:
+        columns_without_related_computed_columns = [
+            column
+            for column in ru_columns
+            if f'__{column}' not in computed_columns
+        ]
+        columns_without_related_computed_columns_str = ', '.join(columns_without_related_computed_columns)
+        index_columns_str = ', '.join([index_columns_str, columns_without_related_computed_columns_str])
+    else:
+        index_columns_str = ', '.join([index_columns_str, ru_columns_str])
+
+    primary_key = get_primary_key(has_ru_columns_table)
+
+    table_columns = tuple(fetch_table_columns(has_ru_columns_table))
+    invariant_table_columns = [
+        column
+        for column in table_columns
+        if column not in ru_columns and column != primary_key
+    ]
+    invariant_index_columns_str = ', '.join(invariant_table_columns)
 
     ru_columns_with_types = sorted(
         identify_columns_types(has_ru_columns_table, ru_columns).items(),
@@ -49,8 +73,6 @@ def localize_has_ru_columns_table(has_ru_columns_table):
         f'{column} {type_}'
         for column, type_ in ru_columns_with_types
     )
-
-    primary_key = get_primary_key(has_ru_columns_table)
 
     constraints = sorted(list_columns_constraints(has_ru_columns_table, ru_columns))
     drop_constraints = (
@@ -94,8 +116,14 @@ def localize_has_ru_columns_table(has_ru_columns_table):
     SELECT {primary_key} AS {has_ru_columns_table}Id, {ru_columns_str}
     FROM {has_ru_columns_table}Invariant;
     GO
-    -- Удаляем "русские" столбцы, а также зависимости
+    -- Удаляем "русские" столбцы, а так же зависимости
     {drop_dependencies_str}
     ALTER TABLE dbo.{has_ru_columns_table}Invariant DROP COLUMN {drop_columns_str};
+    GO
+    -- Создаем уникальный индекс для {has_ru_columns_table}Language
+    CREATE UNIQUE INDEX U_{has_ru_columns_table}Language ON {has_ru_columns_table}Language ({index_columns_str});   
+    GO
+    -- Создаем уникальный индекс для {has_ru_columns_table}Invariant
+    CREATE UNIQUE INDEX U_{has_ru_columns_table}Invariant ON {has_ru_columns_table}Invariant ({invariant_index_columns_str});   
     GO
     '''

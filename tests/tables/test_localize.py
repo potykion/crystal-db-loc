@@ -43,6 +43,8 @@ def test_localize_has_ru_columns_table_with_unique_constraint(has_ru_columns_tab
         'E varchar(20)', 'Nsv varchar(20)', 'Uzv varchar(20)'
     ])
     ru_columns_str = 'E, Nsv, Uzv'
+    full_ru_columns_str = f'{has_ru_columns_table}ID, LanguageID, E, Nsv, Uzv'
+    invariant_columns_str = 'HeadClue, SingCode, WaveLeng, Nzv, M1, M2, M3, Bknumber'
 
     drop_constraints = f'''ALTER TABLE dbo.{has_ru_columns_table}Invariant DROP CONSTRAINT U_AcOpTabl;'''
 
@@ -75,9 +77,15 @@ def test_localize_has_ru_columns_table_with_unique_constraint(has_ru_columns_tab
     SELECT {primary_key} AS {has_ru_columns_table}Id, {ru_columns_str}
     FROM {has_ru_columns_table}Invariant;
     GO
-    -- Удаляем "русские" столбцы, а также зависимости
+    -- Удаляем "русские" столбцы, а так же зависимости
     {drop_constraints}
     ALTER TABLE dbo.{has_ru_columns_table}Invariant DROP COLUMN {ru_columns_str};
+    GO
+    -- Создаем уникальный индекс для {has_ru_columns_table}Language
+    CREATE UNIQUE INDEX U_{has_ru_columns_table}Language ON {has_ru_columns_table}Language ({full_ru_columns_str});   
+    GO
+    -- Создаем уникальный индекс для {has_ru_columns_table}Invariant
+    CREATE UNIQUE INDEX U_{has_ru_columns_table}Invariant ON {has_ru_columns_table}Invariant ({invariant_columns_str});   
     GO
     '''
     assert localization_data == expected
@@ -90,7 +98,9 @@ def test_localize_has_ru_columns_table_with_default_constraints():
     ru_columns_with_types_str = ',\n\t\t'.join([
         'Expert varchar(32)', 'System varchar(128)'
     ])
-    ru_columns_str = ', '.join(['Expert', 'System'])
+    ru_columns_str = 'Expert, System'
+    full_ru_columns_str = f'{has_ru_columns_table}ID, LanguageID, Expert, System'
+    invariant_column_string = 'Help, Class'
 
     constraints = ['DF_HeadTabl_Expert', 'DF_HeadTabl_System']
     drop_constraints = '\n\t'.join(
@@ -127,11 +137,18 @@ def test_localize_has_ru_columns_table_with_default_constraints():
     SELECT {primary_key} AS {has_ru_columns_table}Id, {ru_columns_str}
     FROM {has_ru_columns_table}Invariant;
     GO
-    -- Удаляем "русские" столбцы, а также зависимости
+    -- Удаляем "русские" столбцы, а так же зависимости
     {drop_constraints}
     ALTER TABLE dbo.{has_ru_columns_table}Invariant DROP COLUMN {ru_columns_str};
     GO
+    -- Создаем уникальный индекс для {has_ru_columns_table}Language
+    CREATE UNIQUE INDEX U_{has_ru_columns_table}Language ON {has_ru_columns_table}Language ({full_ru_columns_str});   
+    GO
+    -- Создаем уникальный индекс для {has_ru_columns_table}Invariant
+    CREATE UNIQUE INDEX U_{has_ru_columns_table}Invariant ON {has_ru_columns_table}Invariant ({invariant_column_string});   
+    GO
     '''
+
     assert localization_data == expected
 
 
@@ -143,6 +160,8 @@ def test_localize_has_ru_columns_table_with_computed_columns():
         'MethodP varchar(512)',
         '__MethodP as (left([MethodP],(50)))',
     ])
+    index_columns_str = f'{has_ru_columns_table}ID, LanguageID, __MethodP'
+    invariant_index_columns_str = f'HeadClue, SingCode, Nazbparam, Znparam, Errparam, NazvAngl, ZnAngle, ErrAngl, Bknumber'
 
     indexes = ['IX_ElemTabl']
     drop_indexes_str = '\n\t'.join(
@@ -179,9 +198,15 @@ def test_localize_has_ru_columns_table_with_computed_columns():
     SELECT {primary_key} AS {has_ru_columns_table}Id, MethodP
     FROM {has_ru_columns_table}Invariant;
     GO
-    -- Удаляем "русские" столбцы, а также зависимости
+    -- Удаляем "русские" столбцы, а так же зависимости
     {drop_indexes_str}
     ALTER TABLE dbo.{has_ru_columns_table}Invariant DROP COLUMN __MethodP, MethodP;
+    GO
+    -- Создаем уникальный индекс для {has_ru_columns_table}Language
+    CREATE UNIQUE INDEX U_{has_ru_columns_table}Language ON {has_ru_columns_table}Language ({index_columns_str});   
+    GO
+    -- Создаем уникальный индекс для {has_ru_columns_table}Invariant
+    CREATE UNIQUE INDEX U_{has_ru_columns_table}Invariant ON {has_ru_columns_table}Invariant ({invariant_index_columns_str});   
     GO
     '''
 

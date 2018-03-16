@@ -15,12 +15,14 @@ if __name__ == '__main__':
             elif type_ == 'HAS_RU_COLUMNS':
                 print(localize_has_ru_columns_table(table), file=f)
 
-        print('ALTER TABLE DensTablLanguage ADD PRIMARY KEY (ID);', file=f)
         print('''
+        --- Добавим primary key для DensTablLanguage 
+        ALTER TABLE DensTablLanguage ADD PRIMARY KEY (ID);
+
         -- Создаем таблицу для возможных языков
         CREATE TABLE dbo.Languages (
-            ID int NOT NULL PRIMARY KEY IDENTITY(1,1),
-            Name varchar(2)
+            ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+            Name VARCHAR(2)
         );
         
         -- Создаем языки
@@ -33,4 +35,4 @@ if __name__ == '__main__':
         -- Отключаем триггеры        
         sp_msforeachtable 'ALTER TABLE ? DISABLE TRIGGER all'
         GO
-        ''')
+        ''', file=f)
