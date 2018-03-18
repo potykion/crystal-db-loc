@@ -1,10 +1,14 @@
 from itertools import chain
 from operator import itemgetter
 
+import os
+
 from crystal.tables.columns import get_primary_key, filter_system_columns, find_ru_columns, filter_computed_columns, \
     identify_columns_types, fetch_text_columns
 from crystal.tables.constraints import list_columns_constraints
 from crystal.tables.indexes import list_column_indexes
+
+DEFAULT_LANGUAGE_ID = os.getenv('DEFAULT_LANGUAGE_ID', 1)
 
 
 def identify_table_type(table):
@@ -82,7 +86,7 @@ CREATE TABLE dbo.{self.table}Language
 (
     ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     {self.table}ID INT NOT NULL,
-    LanguageID INT NOT NULL DEFAULT 1,
+    LanguageID INT NOT NULL DEFAULT {DEFAULT_LANGUAGE_ID},
     {ru_columns_with_types_str}
 );'''
 

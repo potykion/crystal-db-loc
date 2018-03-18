@@ -1,14 +1,16 @@
-from datetime import date
+import os
 
 from crystal.tables.localize import identify_table_type, OnlyRuColumnsTableLocalizer, HasRuColumnsTableLocalizer
 from crystal.tables.tables import fetch_table_names, filter_system_tables
+
+DATABASE = os.getenv('DATABASE', 'Crystal')
 
 if __name__ == '__main__':
 
     tables = list(filter_system_tables(fetch_table_names()))
 
-    with open(f'scripts/translate-{date.today()}.sql', encoding='utf-8', mode='w') as f:
-        print('use Crystal;\n', file=f)
+    with open(f'scripts/{DATABASE}-translate.sql', encoding='utf-8', mode='w') as f:
+        print(F'use {DATABASE};\n', file=f)
         for table in tables:
             type_ = identify_table_type(table)
 

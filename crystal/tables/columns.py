@@ -49,7 +49,8 @@ def identify_columns_types(table, columns):
 
 
 def get_primary_key(table):
-    return db.query(f'sp_pkeys {table}').first()['COLUMN_NAME']
+    pk_column = db.query(f'sp_pkeys {table}').first() or {}
+    return pk_column.get('COLUMN_NAME', None)
 
 
 def filter_system_columns(columns):

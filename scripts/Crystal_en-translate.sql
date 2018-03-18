@@ -1,4 +1,4 @@
-use Crystal;
+use Crystal_en;
 
 --- Таблица - DielDiss
 --- Добавляем столбец LanguageID
@@ -17,7 +17,7 @@ CREATE TABLE dbo.Elastic1Language
 (
     ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     Elastic1ID INT NOT NULL,
-    LanguageID INT NOT NULL DEFAULT 1,
+    LanguageID INT NOT NULL DEFAULT 2,
     MethodE varchar(1999),
     ZnE varchar(20),
     __MethodE as (left([MethodE],50))
@@ -84,7 +84,7 @@ CREATE TABLE dbo.MnOpTablLanguage
 (
     ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     MnOpTablID INT NOT NULL,
-    LanguageID INT NOT NULL DEFAULT 1,
+    LanguageID INT NOT NULL DEFAULT 2,
     MethodK varchar(1999),
     __MethodK as (left([MethodK],50))
 );
@@ -118,7 +118,7 @@ CREATE TABLE dbo.ModfTablLanguage
 (
     ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     ModfTablID INT NOT NULL,
-    LanguageID INT NOT NULL DEFAULT 1,
+    LanguageID INT NOT NULL DEFAULT 2,
     SpaceGrp varchar(55)
 );
 GO
@@ -159,7 +159,7 @@ CREATE TABLE dbo.PzElTablLanguage
 (
     ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     PzElTablID INT NOT NULL,
-    LanguageID INT NOT NULL DEFAULT 1,
+    LanguageID INT NOT NULL DEFAULT 2,
     MethodPz varchar(1999),
     __MethodPz as (left([MethodPz],50))
 );
@@ -201,7 +201,7 @@ CREATE TABLE dbo.RefrcIndLanguage
 (
     ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     RefrcIndID INT NOT NULL,
-    LanguageID INT NOT NULL DEFAULT 1,
+    LanguageID INT NOT NULL DEFAULT 2,
     MethodIn varchar(1999),
     __MethodIn as (left([MethodIn],50))
 );
@@ -243,7 +243,7 @@ CREATE TABLE dbo.DielectrLanguage
 (
     ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     DielectrID INT NOT NULL,
-    LanguageID INT NOT NULL DEFAULT 1,
+    LanguageID INT NOT NULL DEFAULT 2,
     MethodY varchar(1999),
     Znak varchar(50),
     __MethodY as (left([MethodY],50))
@@ -294,7 +294,7 @@ CREATE TABLE dbo.ElemTablLanguage
 (
     ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     ElemTablID INT NOT NULL,
-    LanguageID INT NOT NULL DEFAULT 1,
+    LanguageID INT NOT NULL DEFAULT 2,
     MethodP varchar(512),
     __MethodP as (left([MethodP],(50)))
 );
@@ -360,7 +360,7 @@ CREATE TABLE dbo.PropertiesLanguage
 (
     ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     PropertiesID INT NOT NULL,
-    LanguageID INT NOT NULL DEFAULT 1,
+    LanguageID INT NOT NULL DEFAULT 2,
     NAZVPROP varchar(300)
 );
 GO
@@ -409,7 +409,7 @@ CREATE TABLE dbo.HeatTablLanguage
 (
     ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     HeatTablID INT NOT NULL,
-    LanguageID INT NOT NULL DEFAULT 1,
+    LanguageID INT NOT NULL DEFAULT 2,
     MethodC varchar(1999),
     __MethodC as (left([MethodC],(50)))
 );
@@ -451,7 +451,7 @@ CREATE TABLE dbo.AcOpTablLanguage
 (
     ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     AcOpTablID INT NOT NULL,
-    LanguageID INT NOT NULL DEFAULT 1,
+    LanguageID INT NOT NULL DEFAULT 2,
     E varchar(20),
     Nsv varchar(20),
     Uzv varchar(20)
@@ -486,7 +486,7 @@ CREATE TABLE dbo.HeadTablLanguage
 (
     ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     HeadTablID INT NOT NULL,
-    LanguageID INT NOT NULL DEFAULT 1,
+    LanguageID INT NOT NULL DEFAULT 2,
     Expert varchar(32),
     System varchar(128)
 );
@@ -521,7 +521,7 @@ CREATE TABLE dbo.BibliogrLanguage
 (
     ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     BibliogrID INT NOT NULL,
-    LanguageID INT NOT NULL DEFAULT 1,
+    LanguageID INT NOT NULL DEFAULT 2,
     Authors varchar(500),
     Source varchar(500),
     Title varchar(1000)
@@ -556,7 +556,7 @@ CREATE TABLE dbo.ConstSelLanguage
 (
     ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     ConstSelID INT NOT NULL,
-    LanguageID INT NOT NULL DEFAULT 1,
+    LanguageID INT NOT NULL DEFAULT 2,
     Measure varchar(20)
 );
 GO
@@ -582,7 +582,6 @@ GO
 
 --- Добавим primary key для DensTablLanguage 
 ALTER TABLE DensTablLanguage ADD PRIMARY KEY (ID);
-
 -- Создаем таблицу для возможных языков
 CREATE TABLE dbo.Languages (
     ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
