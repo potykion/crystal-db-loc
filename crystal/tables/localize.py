@@ -65,14 +65,11 @@ def localize_has_ru_columns_table(has_ru_columns_table):
     ]
     invariant_index_columns_str = ', '.join(invariant_table_columns)
 
-    # todo create translation table
-    # http://weblogs.sqlteam.com/jeffs/archive/2004/10/07/2190.aspx
-
     ru_columns_with_types = sorted(
         identify_columns_types(has_ru_columns_table, ru_columns).items(),
         key=itemgetter(0)
     )
-    ru_columns_with_types_str = ',\n\t\t'.join(
+    ru_columns_with_types_str = ',\n    '.join(
         f'{column} {type_}'
         for column, type_ in ru_columns_with_types
     )
@@ -90,37 +87,36 @@ def localize_has_ru_columns_table(has_ru_columns_table):
         if index not in constraints
     )
 
-    drop_dependencies_str = '\n\t'.join(chain(drop_constraints, drop_indexes))
+    drop_dependencies_str = '\n'.join(chain(drop_constraints, drop_indexes))
 
-    return f'''
-    --- Таблица {has_ru_columns_table}
-    --- Переименовываем {has_ru_columns_table}
-    sp_rename '{has_ru_columns_table}', '{has_ru_columns_table}Invariant';
-    GO
-    --- Создаем таблицу {has_ru_columns_table}Language
-    CREATE TABLE dbo.{has_ru_columns_table}Language
-    (
-        ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-        {has_ru_columns_table}ID INT NOT NULL,
-        LanguageID INT NOT NULL DEFAULT 1,
-        {ru_columns_with_types_str}
-    );
-    GO    
-    --- Создаем FK для {has_ru_columns_table}Language
-    ALTER TABLE dbo.{has_ru_columns_table}Language
-    ADD CONSTRAINT FK_{has_ru_columns_table}Language_{has_ru_columns_table}Invariant FOREIGN KEY ({has_ru_columns_table}ID)
-        REFERENCES dbo.{has_ru_columns_table}Invariant ({primary_key})     
-        ON DELETE CASCADE    
-        ON UPDATE CASCADE    
-    ;    
-    GO
-    -- Вставляем столбцы
-    INSERT INTO dbo.{has_ru_columns_table}Language ({has_ru_columns_table}ID, {ru_columns_str})
-    SELECT {primary_key} AS {has_ru_columns_table}Id, {ru_columns_str}
-    FROM {has_ru_columns_table}Invariant;
-    GO
-    -- Удаляем "русские" столбцы, а так же зависимости
-    {drop_dependencies_str}
-    ALTER TABLE dbo.{has_ru_columns_table}Invariant DROP COLUMN {drop_columns_str};
-    GO
-    '''
+    return f'''--- Таблица {has_ru_columns_table}
+--- Переименовываем {has_ru_columns_table}
+sp_rename '{has_ru_columns_table}', '{has_ru_columns_table}Invariant';
+GO
+--- Создаем таблицу {has_ru_columns_table}Language
+CREATE TABLE dbo.{has_ru_columns_table}Language
+(
+    ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    {has_ru_columns_table}ID INT NOT NULL,
+    LanguageID INT NOT NULL DEFAULT 1,
+    {ru_columns_with_types_str}
+);
+GO
+--- Создаем FK для {has_ru_columns_table}Language
+ALTER TABLE dbo.{has_ru_columns_table}Language
+ADD CONSTRAINT FK_{has_ru_columns_table}Language_{has_ru_columns_table}Invariant FOREIGN KEY ({has_ru_columns_table}ID)
+    REFERENCES dbo.{has_ru_columns_table}Invariant ({primary_key})
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+;
+GO
+-- Вставляем столбцы
+INSERT INTO dbo.{has_ru_columns_table}Language ({has_ru_columns_table}ID, {ru_columns_str})
+SELECT {primary_key} AS {has_ru_columns_table}Id, {ru_columns_str}
+FROM {has_ru_columns_table}Invariant;
+GO
+-- Удаляем "русские" столбцы, а так же зависимости
+{drop_dependencies_str}
+ALTER TABLE dbo.{has_ru_columns_table}Invariant DROP COLUMN {drop_columns_str};
+GO
+'''
