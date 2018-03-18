@@ -65,6 +65,9 @@ def localize_has_ru_columns_table(has_ru_columns_table):
     ]
     invariant_index_columns_str = ', '.join(invariant_table_columns)
 
+    # todo create translation table
+    # http://weblogs.sqlteam.com/jeffs/archive/2004/10/07/2190.aspx
+
     ru_columns_with_types = sorted(
         identify_columns_types(has_ru_columns_table, ru_columns).items(),
         key=itemgetter(0)
@@ -119,11 +122,5 @@ def localize_has_ru_columns_table(has_ru_columns_table):
     -- Удаляем "русские" столбцы, а так же зависимости
     {drop_dependencies_str}
     ALTER TABLE dbo.{has_ru_columns_table}Invariant DROP COLUMN {drop_columns_str};
-    GO
-    -- Создаем уникальный индекс для {has_ru_columns_table}Language
-    CREATE UNIQUE INDEX U_{has_ru_columns_table}Language ON {has_ru_columns_table}Language ({index_columns_str});   
-    GO
-    -- Создаем уникальный индекс для {has_ru_columns_table}Invariant
-    CREATE UNIQUE INDEX U_{has_ru_columns_table}Invariant ON {has_ru_columns_table}Invariant ({invariant_index_columns_str});   
     GO
     '''
