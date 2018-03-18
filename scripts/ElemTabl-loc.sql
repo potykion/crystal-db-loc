@@ -25,7 +25,9 @@ INSERT INTO dbo.ElemTablLanguage (ElemTablID, MethodP)
 SELECT ID AS ElemTablId, MethodP
 FROM ElemTablInvariant;
 GO
--- Удаляем "русские" столбцы, а так же зависимости
+-- Удаляем ограничения и индексы
 DROP INDEX IX_ElemTabl ON ElemTablInvariant;
+GO
+-- Удаляем языкозависимые столбцы
 ALTER TABLE dbo.ElemTablInvariant DROP COLUMN __MethodP, MethodP;
 GO

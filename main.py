@@ -1,6 +1,6 @@
 from datetime import date
 
-from crystal.tables.localize import identify_table_type, localize_only_ru_columns_table, localize_has_ru_columns_table
+from crystal.tables.localize import identify_table_type, OnlyRuColumnsTableLocalizer, HasRuColumnsTableLocalizer
 from crystal.tables.tables import fetch_table_names, filter_system_tables
 
 if __name__ == '__main__':
@@ -13,9 +13,9 @@ if __name__ == '__main__':
             type_ = identify_table_type(table)
 
             if type_ == 'ONLY_RU_COLUMNS':
-                print(localize_only_ru_columns_table(table), file=f)
+                print(OnlyRuColumnsTableLocalizer(table).localize(), file=f)
             elif type_ == 'HAS_RU_COLUMNS':
-                print(localize_has_ru_columns_table(table), file=f)
+                print(HasRuColumnsTableLocalizer(table).localize(), file=f)
 
         print('''
         --- Добавим primary key для DensTablLanguage 

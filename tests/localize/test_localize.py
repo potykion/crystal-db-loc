@@ -1,11 +1,11 @@
 import pytest
 
-from crystal.tables.localize import identify_table_type, localize_only_ru_columns_table, localize_has_ru_columns_table
+from crystal.tables.localize import HasRuColumnsTableLocalizer, OnlyRuColumnsTableLocalizer, identify_table_type
 
 
 @pytest.fixture()
 def only_ru_columns_table():
-    return 'RefrTabl'
+    return ''
 
 
 @pytest.mark.parametrize('table, type_', [
@@ -17,25 +17,14 @@ def test_identify_table_type(table, type_):
     assert identify_table_type(table) == type_
 
 
-def test_localize_only_ru_columns_table(only_ru_columns_table):
-    localization_data = localize_only_ru_columns_table(only_ru_columns_table)
-
-    assert localization_data == f'''
-    --- Таблица - {only_ru_columns_table}
-    --- Добавляем столбец LanguageID
-    ALTER TABLE dbo.{only_ru_columns_table} ADD LanguageID int NOT NULL DEFAULT(1);
-    GO    
-    --- Добавляем Language к названию
-    sp_rename '{only_ru_columns_table}', '{only_ru_columns_table}Language';
-    GO
-    '''
-
-
-@pytest.mark.parametrize('table', [
-    'AcOpTabl', 'HeadTabl', 'ElemTabl'
+@pytest.mark.parametrize('table, localizer', [
+    ('RefrTabl', OnlyRuColumnsTableLocalizer),
+    ('AcOpTabl', HasRuColumnsTableLocalizer),
+    ('HeadTabl', HasRuColumnsTableLocalizer),
+    ('ElemTabl', HasRuColumnsTableLocalizer)
 ])
-def test_localize_has_ru_columns_tables(table):
-    localization_data = localize_has_ru_columns_table(table)
+def test_localize(table, localizer):
+    localization_data = localizer(table).localize()
 
     with open(f'../scripts/{table}-loc.sql', encoding='utf-8') as f:
         expected = f.read()

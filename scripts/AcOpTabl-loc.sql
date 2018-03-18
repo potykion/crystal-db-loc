@@ -26,7 +26,9 @@ INSERT INTO dbo.AcOpTablLanguage (AcOpTablID, E, Nsv, Uzv)
 SELECT ID AS AcOpTablId, E, Nsv, Uzv
 FROM AcOpTablInvariant;
 GO
--- Удаляем "русские" столбцы, а так же зависимости
+-- Удаляем ограничения и индексы
 ALTER TABLE dbo.AcOpTablInvariant DROP CONSTRAINT U_AcOpTabl;
+GO
+-- Удаляем языкозависимые столбцы
 ALTER TABLE dbo.AcOpTablInvariant DROP COLUMN E, Nsv, Uzv;
 GO
