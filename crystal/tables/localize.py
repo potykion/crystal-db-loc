@@ -1,11 +1,25 @@
 from itertools import chain
 from operator import itemgetter
 
-from crystal.tables.columns import get_primary_key, filter_system_columns, find_ru_columns, drop_computed_columns, \
-    filter_computed_columns, identify_columns_types, fetch_text_columns
+from crystal.tables.columns import get_primary_key, filter_system_columns, find_ru_columns, filter_computed_columns, \
+    identify_columns_types, fetch_text_columns
 from crystal.tables.constraints import list_columns_constraints
 from crystal.tables.indexes import list_column_indexes
-from crystal.utils.utils import iter_len
+
+
+def identify_table_type(table):
+    columns = tuple(filter_system_columns(fetch_text_columns(table)))
+    ru_columns = tuple(filter_system_columns(find_ru_columns(table)))
+
+    columns_count = len(columns)
+    ru_columns_count = len(ru_columns)
+
+    if ru_columns_count and columns_count == ru_columns_count:
+        return 'ONLY_RU_COLUMNS'
+    elif ru_columns_count and columns_count != ru_columns_count:
+        return 'HAS_RU_COLUMNS'
+    else:
+        return 'NO_RU_COLUMNS'
 
 
 class Localizer:
@@ -41,7 +55,7 @@ class HasRuColumnsTableLocalizer(Localizer):
         queries = '\nGO\n'.join([
             self._rename_to_invariant(),
             self._create_language_table(),
-            self._add_foreign_key(),
+            self._add_foreign_key_to_language_table(),
             self._insert_data_from_invariant(),
             self._delete_dependencies(),
             self._delete_language_dependent_columns(),
@@ -72,7 +86,7 @@ CREATE TABLE dbo.{self.table}Language
     {ru_columns_with_types_str}
 );'''
 
-    def _add_foreign_key(self):
+    def _add_foreign_key_to_language_table(self):
         return f'''--- Создаем FK для {self.table}Language
 ALTER TABLE dbo.{self.table}Language
 ADD CONSTRAINT FK_{self.table}Language_{self.table}Invariant FOREIGN KEY ({self.table}ID)
@@ -110,18 +124,3 @@ ALTER TABLE dbo.{self.table}Invariant DROP COLUMN {drop_columns_str};'''
 INSERT INTO dbo.{self.table}Language ({self.table}ID, {insert_columns_str})
 SELECT {self.pk} AS {self.table}Id, {insert_columns_str}
 FROM {self.table}Invariant;'''
-
-
-def identify_table_type(table):
-    columns = tuple(filter_system_columns(fetch_text_columns(table)))
-    ru_columns = tuple(filter_system_columns(find_ru_columns(table)))
-
-    columns_count = iter_len(columns)
-    ru_columns_count = iter_len(ru_columns)
-
-    if ru_columns_count and columns_count == ru_columns_count:
-        return 'ONLY_RU_COLUMNS'
-    elif ru_columns_count and columns_count != ru_columns_count:
-        return 'HAS_RU_COLUMNS'
-    else:
-        return 'NO_RU_COLUMNS'
