@@ -1,5 +1,24 @@
 use Crystal;
 
+-- Создаем таблицу для возможных языков
+CREATE TABLE dbo.Languages (
+    ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    Name VARCHAR(2)
+);
+-- Создаем языки
+INSERT INTO dbo.Languages 
+(Name)
+VALUES
+('ru'),  ('en');
+GO
+-- Отключаем триггеры        
+sp_msforeachtable 'ALTER TABLE ? DISABLE TRIGGER all'
+GO
+
+---Создаем PK для DensTabl
+ALTER TABLE dbo.DensTabl ADD PRIMARY KEY (ID);
+GO
+
 --- Таблица - DielDiss
 --- Добавляем столбец LanguageID
 ALTER TABLE dbo.DielDiss ADD LanguageID int NOT NULL DEFAULT(1);
@@ -57,14 +76,6 @@ ALTER TABLE dbo.EsOpTabl ADD LanguageID int NOT NULL DEFAULT(1);
 GO
 --- Добавляем Language к названию
 sp_rename 'EsOpTabl', 'EsOpTablLanguage';
-GO
-
---- Таблица - ElemTablNew
---- Добавляем столбец LanguageID
-ALTER TABLE dbo.ElemTablNew ADD LanguageID int NOT NULL DEFAULT(1);
-GO
---- Добавляем Language к названию
-sp_rename 'ElemTablNew', 'ElemTablNewLanguage';
 GO
 
 --- Таблица - MechTabl
@@ -234,37 +245,349 @@ GO
 sp_rename 'LastModified', 'LastModifiedLanguage';
 GO
 
---- Таблица Dielectr
---- Переименовываем Dielectr
-sp_rename 'Dielectr', 'DielectrInvariant';
+--- Таблица ElemTabl
+--- Переименовываем ElemTabl
+sp_rename 'ElemTabl', 'ElemTablInvariant';
 GO
---- Создаем таблицу DielectrLanguage
-CREATE TABLE dbo.DielectrLanguage
+--- Создаем таблицу ElemTablLanguage
+CREATE TABLE dbo.ElemTablLanguage
 (
     ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    DielectrID INT NOT NULL,
+    ElemTablID INT NOT NULL,
     LanguageID INT NOT NULL DEFAULT 1,
-    MethodY varchar(1999),
-    Znak varchar(50),
-    __MethodY as (left([MethodY],50))
+    MethodP varchar(1999),
+    Nazbparam varchar(2),
+    __MethodP as (left([MethodP],50))
 );
 GO
---- Создаем FK для DielectrLanguage
-ALTER TABLE dbo.DielectrLanguage
-ADD CONSTRAINT FK_DielectrLanguage_DielectrInvariant FOREIGN KEY (DielectrID)
-    REFERENCES dbo.DielectrInvariant (ID)
+--- Создаем FK для ElemTablLanguage
+ALTER TABLE dbo.ElemTablLanguage
+ADD CONSTRAINT FK_ElemTablLanguage_ElemTablInvariant FOREIGN KEY (ElemTablID)
+    REFERENCES dbo.ElemTablInvariant (ID)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 ;
 GO
 -- Вставляем столбцы
-INSERT INTO dbo.DielectrLanguage (DielectrID, MethodY, Znak)
-SELECT ID AS DielectrId, MethodY, Znak
-FROM DielectrInvariant;
+INSERT INTO dbo.ElemTablLanguage (ElemTablID, MethodP, Nazbparam)
+SELECT ID AS ElemTablId, MethodP, Nazbparam
+FROM ElemTablInvariant;
 GO
 -- Удаляем ограничения и индексы
-ALTER TABLE dbo.DielectrInvariant DROP CONSTRAINT U_Dielectr;
+DROP INDEX IX_ElemTabl ON ElemTablInvariant;
 GO
 -- Удаляем языкозависимые столбцы
-ALTER TABLE dbo.DielectrInvariant DROP COLUMN __MethodY, MethodY, Znak;
+ALTER TABLE dbo.ElemTablInvariant DROP COLUMN __MethodP, MethodP, Nazbparam;
 GO
+
+--- Таблица - Dielectr
+--- Добавляем столбец LanguageID
+ALTER TABLE dbo.Dielectr ADD LanguageID int NOT NULL DEFAULT(1);
+GO
+--- Добавляем Language к названию
+sp_rename 'Dielectr', 'DielectrLanguage';
+GO
+
+--- Таблица - GrafTabl
+--- Добавляем столбец LanguageID
+ALTER TABLE dbo.GrafTabl ADD LanguageID int NOT NULL DEFAULT(1);
+GO
+--- Добавляем Language к названию
+sp_rename 'GrafTabl', 'GrafTablLanguage';
+GO
+
+--- Таблица - PlavTabl
+--- Добавляем столбец LanguageID
+ALTER TABLE dbo.PlavTabl ADD LanguageID int NOT NULL DEFAULT(1);
+GO
+--- Добавляем Language к названию
+sp_rename 'PlavTabl', 'PlavTablLanguage';
+GO
+
+--- Таблица HeatTabl
+--- Переименовываем HeatTabl
+sp_rename 'HeatTabl', 'HeatTablInvariant';
+GO
+--- Создаем таблицу HeatTablLanguage
+CREATE TABLE dbo.HeatTablLanguage
+(
+    ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    HeatTablID INT NOT NULL,
+    LanguageID INT NOT NULL DEFAULT 1,
+    MethodC varchar(1999),
+    __MethodC as (left([MethodC],50))
+);
+GO
+--- Создаем FK для HeatTablLanguage
+ALTER TABLE dbo.HeatTablLanguage
+ADD CONSTRAINT FK_HeatTablLanguage_HeatTablInvariant FOREIGN KEY (HeatTablID)
+    REFERENCES dbo.HeatTablInvariant (ID)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+;
+GO
+-- Вставляем столбцы
+INSERT INTO dbo.HeatTablLanguage (HeatTablID, MethodC)
+SELECT ID AS HeatTablId, MethodC
+FROM HeatTablInvariant;
+GO
+-- Удаляем ограничения и индексы
+ALTER TABLE dbo.HeatTablInvariant DROP CONSTRAINT U_HeatTabl;
+GO
+-- Удаляем языкозависимые столбцы
+ALTER TABLE dbo.HeatTablInvariant DROP COLUMN __MethodC, MethodC;
+GO
+
+--- Таблица - HardTabl
+--- Добавляем столбец LanguageID
+ALTER TABLE dbo.HardTabl ADD LanguageID int NOT NULL DEFAULT(1);
+GO
+--- Добавляем Language к названию
+sp_rename 'HardTabl', 'HardTablLanguage';
+GO
+
+--- Таблица - DensTabl
+--- Добавляем столбец LanguageID
+ALTER TABLE dbo.DensTabl ADD LanguageID int NOT NULL DEFAULT(1);
+GO
+--- Добавляем Language к названию
+sp_rename 'DensTabl', 'DensTablLanguage';
+GO
+
+--- Таблица DecrTabl
+--- Переименовываем DecrTabl
+sp_rename 'DecrTabl', 'DecrTablInvariant';
+GO
+--- Создаем таблицу DecrTablLanguage
+CREATE TABLE dbo.DecrTablLanguage
+(
+    ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    DecrTablID INT NOT NULL,
+    LanguageID INT NOT NULL DEFAULT 1,
+    Nzv varchar(20),
+    Uzv varchar(20)
+);
+GO
+--- Создаем FK для DecrTablLanguage
+ALTER TABLE dbo.DecrTablLanguage
+ADD CONSTRAINT FK_DecrTablLanguage_DecrTablInvariant FOREIGN KEY (DecrTablID)
+    REFERENCES dbo.DecrTablInvariant (ID)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+;
+GO
+-- Вставляем столбцы
+INSERT INTO dbo.DecrTablLanguage (DecrTablID, Nzv, Uzv)
+SELECT ID AS DecrTablId, Nzv, Uzv
+FROM DecrTablInvariant;
+GO
+-- Удаляем ограничения и индексы
+ALTER TABLE dbo.DecrTablInvariant DROP CONSTRAINT U_DecrTabl;
+GO
+-- Удаляем языкозависимые столбцы
+ALTER TABLE dbo.DecrTablInvariant DROP COLUMN Nzv, Uzv;
+GO
+
+--- Таблица - CuryTabl
+--- Добавляем столбец LanguageID
+ALTER TABLE dbo.CuryTabl ADD LanguageID int NOT NULL DEFAULT(1);
+GO
+--- Добавляем Language к названию
+sp_rename 'CuryTabl', 'CuryTablLanguage';
+GO
+
+--- Таблица - SuspTabl
+--- Добавляем столбец LanguageID
+ALTER TABLE dbo.SuspTabl ADD LanguageID int NOT NULL DEFAULT(1);
+GO
+--- Добавляем Language к названию
+sp_rename 'SuspTabl', 'SuspTablLanguage';
+GO
+
+--- Таблица Properties
+--- Переименовываем Properties
+sp_rename 'Properties', 'PropertiesInvariant';
+GO
+--- Создаем таблицу PropertiesLanguage
+CREATE TABLE dbo.PropertiesLanguage
+(
+    ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    PropertiesID INT NOT NULL,
+    LanguageID INT NOT NULL DEFAULT 1,
+    NAZVPROP varchar(300)
+);
+GO
+--- Создаем FK для PropertiesLanguage
+ALTER TABLE dbo.PropertiesLanguage
+ADD CONSTRAINT FK_PropertiesLanguage_PropertiesInvariant FOREIGN KEY (PropertiesID)
+    REFERENCES dbo.PropertiesInvariant (NOMPROP)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+;
+GO
+-- Вставляем столбцы
+INSERT INTO dbo.PropertiesLanguage (PropertiesID, NAZVPROP)
+SELECT NOMPROP AS PropertiesId, NAZVPROP
+FROM PropertiesInvariant;
+GO
+-- Удаляем ограничения и индексы
+
+GO
+-- Удаляем языкозависимые столбцы
+ALTER TABLE dbo.PropertiesInvariant DROP COLUMN NAZVPROP;
+GO
+
+--- Таблица - Properties_Complex
+--- Добавляем столбец LanguageID
+ALTER TABLE dbo.Properties_Complex ADD LanguageID int NOT NULL DEFAULT(1);
+GO
+--- Добавляем Language к названию
+sp_rename 'Properties_Complex', 'Properties_ComplexLanguage';
+GO
+
+--- Таблица - HeatExpn
+--- Добавляем столбец LanguageID
+ALTER TABLE dbo.HeatExpn ADD LanguageID int NOT NULL DEFAULT(1);
+GO
+--- Добавляем Language к названию
+sp_rename 'HeatExpn', 'HeatExpnLanguage';
+GO
+
+--- Таблица HeadTabl
+--- Переименовываем HeadTabl
+sp_rename 'HeadTabl', 'HeadTablInvariant';
+GO
+--- Создаем таблицу HeadTablLanguage
+CREATE TABLE dbo.HeadTablLanguage
+(
+    ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    HeadTablID INT NOT NULL,
+    LanguageID INT NOT NULL DEFAULT 1,
+    Expert varchar(32),
+    System varchar(128)
+);
+GO
+--- Создаем FK для HeadTablLanguage
+ALTER TABLE dbo.HeadTablLanguage
+ADD CONSTRAINT FK_HeadTablLanguage_HeadTablInvariant FOREIGN KEY (HeadTablID)
+    REFERENCES dbo.HeadTablInvariant (HeadClue)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+;
+GO
+-- Вставляем столбцы
+INSERT INTO dbo.HeadTablLanguage (HeadTablID, Expert, System)
+SELECT HeadClue AS HeadTablId, Expert, System
+FROM HeadTablInvariant;
+GO
+-- Удаляем ограничения и индексы
+ALTER TABLE dbo.HeadTablInvariant DROP CONSTRAINT DF_HeadTabl_Expert;
+ALTER TABLE dbo.HeadTablInvariant DROP CONSTRAINT DF_HeadTabl_System;
+GO
+-- Удаляем языкозависимые столбцы
+ALTER TABLE dbo.HeadTablInvariant DROP COLUMN Expert, System;
+GO
+
+--- Таблица Bibliogr
+--- Переименовываем Bibliogr
+sp_rename 'Bibliogr', 'BibliogrInvariant';
+GO
+--- Создаем таблицу BibliogrLanguage
+CREATE TABLE dbo.BibliogrLanguage
+(
+    ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    BibliogrID INT NOT NULL,
+    LanguageID INT NOT NULL DEFAULT 1,
+    Authors varchar(500),
+    Source varchar(500),
+    Title varchar(1000)
+);
+GO
+--- Создаем FK для BibliogrLanguage
+ALTER TABLE dbo.BibliogrLanguage
+ADD CONSTRAINT FK_BibliogrLanguage_BibliogrInvariant FOREIGN KEY (BibliogrID)
+    REFERENCES dbo.BibliogrInvariant (Bknumber)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+;
+GO
+-- Вставляем столбцы
+INSERT INTO dbo.BibliogrLanguage (BibliogrID, Authors, Source, Title)
+SELECT Bknumber AS BibliogrId, Authors, Source, Title
+FROM BibliogrInvariant;
+GO
+-- Удаляем ограничения и индексы
+
+GO
+-- Удаляем языкозависимые столбцы
+ALTER TABLE dbo.BibliogrInvariant DROP COLUMN Authors, Source, Title;
+GO
+
+--- Таблица AcOpTabl
+--- Переименовываем AcOpTabl
+sp_rename 'AcOpTabl', 'AcOpTablInvariant';
+GO
+--- Создаем таблицу AcOpTablLanguage
+CREATE TABLE dbo.AcOpTablLanguage
+(
+    ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    AcOpTablID INT NOT NULL,
+    LanguageID INT NOT NULL DEFAULT 1,
+    E varchar(20),
+    Nsv varchar(20),
+    Uzv varchar(20)
+);
+GO
+--- Создаем FK для AcOpTablLanguage
+ALTER TABLE dbo.AcOpTablLanguage
+ADD CONSTRAINT FK_AcOpTablLanguage_AcOpTablInvariant FOREIGN KEY (AcOpTablID)
+    REFERENCES dbo.AcOpTablInvariant (ID)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+;
+GO
+-- Вставляем столбцы
+INSERT INTO dbo.AcOpTablLanguage (AcOpTablID, E, Nsv, Uzv)
+SELECT ID AS AcOpTablId, E, Nsv, Uzv
+FROM AcOpTablInvariant;
+GO
+-- Удаляем ограничения и индексы
+ALTER TABLE dbo.AcOpTablInvariant DROP CONSTRAINT U_AcOpTabl;
+GO
+-- Удаляем языкозависимые столбцы
+ALTER TABLE dbo.AcOpTablInvariant DROP COLUMN E, Nsv, Uzv;
+GO
+
+--- Таблица ConstSel
+--- Переименовываем ConstSel
+sp_rename 'ConstSel', 'ConstSelInvariant';
+GO
+--- Создаем таблицу ConstSelLanguage
+CREATE TABLE dbo.ConstSelLanguage
+(
+    ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    ConstSelID INT NOT NULL,
+    LanguageID INT NOT NULL DEFAULT 1,
+    Measure varchar(20)
+);
+GO
+--- Создаем FK для ConstSelLanguage
+ALTER TABLE dbo.ConstSelLanguage
+ADD CONSTRAINT FK_ConstSelLanguage_ConstSelInvariant FOREIGN KEY (ConstSelID)
+    REFERENCES dbo.ConstSelInvariant (ID)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+;
+GO
+-- Вставляем столбцы
+INSERT INTO dbo.ConstSelLanguage (ConstSelID, Measure)
+SELECT ID AS ConstSelId, Measure
+FROM ConstSelInvariant;
+GO
+-- Удаляем ограничения и индексы
+ALTER TABLE dbo.ConstSelInvariant DROP CONSTRAINT U_ConstSel;
+GO
+-- Удаляем языкозависимые столбцы
+ALTER TABLE dbo.ConstSelInvariant DROP COLUMN Measure;
+GO
+
