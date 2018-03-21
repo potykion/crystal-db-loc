@@ -1,7 +1,6 @@
+import os
 from itertools import chain
 from operator import itemgetter
-
-import os
 
 from crystal.tables.columns import get_primary_key, filter_system_columns, find_ru_columns, filter_computed_columns, \
     identify_columns_types, fetch_text_columns
@@ -35,15 +34,27 @@ class Localizer:
 
 
 class OnlyRuColumnsTableLocalizer(Localizer):
+    def __init__(self, table):
+        super().__init__(table)
+
+        self.text_columns = list(filter_system_columns(fetch_text_columns(self.table)))
+
     def localize(self):
-        return f'''--- Таблица - {self.table}
---- Добавляем столбец LanguageID
-ALTER TABLE dbo.{self.table} ADD LanguageID int NOT NULL DEFAULT(1);
-GO
---- Добавляем Language к названию
-sp_rename '{self.table}', '{self.table}Language';
-GO
-'''
+        queries = '\nGO\n'.join(list(filter(None, [
+            self._add_language_column(),
+            _delete_dependencies(self.table, self.text_columns),
+            self._rename_table()
+        ])))
+
+        return f'--- Таблица - {self.table}\n{queries}\nGO\n'
+
+    def _add_language_column(self):
+        return f'''--- Добавляем столбец LanguageID
+ALTER TABLE dbo.{self.table} ADD LanguageID int NOT NULL DEFAULT(1);'''
+
+    def _rename_table(self):
+        return f'''--- Добавляем Language к названию
+sp_rename '{self.table}', '{self.table}Language';'''
 
 
 class HasRuColumnsTableLocalizer(Localizer):
@@ -56,17 +67,23 @@ class HasRuColumnsTableLocalizer(Localizer):
         self.ru_columns_without_computed = sorted(set(self.ru_columns) - set(self.computed_columns))
 
     def localize(self):
-        queries = '\nGO\n'.join([
-            self._rename_to_invariant(),
-            self._create_language_table(),
-            self._add_foreign_key_to_language_table(),
-            self._insert_data_from_invariant(),
-            self._delete_dependencies(),
-            self._delete_language_dependent_columns(),
-            ''
-        ])
+        queries = '\nGO\n'.join(
 
-        return f'''--- Таблица {self.table}\n{queries}'''
+            filter(
+                None,
+                [
+                    self._rename_to_invariant(),
+                    self._create_language_table(),
+                    self._add_foreign_key_to_language_table(),
+                    self._insert_data_from_invariant(),
+                    _delete_dependencies(self.table, self.ru_columns, f'{self.table}Invariant'),
+                    self._delete_language_dependent_columns(),
+                ]
+            )
+
+        )
+
+        return f'''--- Таблица {self.table}\n{queries}\nGO\n'''
 
     def _rename_to_invariant(self):
         return f"--- Переименовываем {self.table}\nsp_rename '{self.table}', '{self.table}Invariant';"
@@ -104,23 +121,6 @@ ADD CONSTRAINT FK_{self.table}Language_{self.table}Invariant FOREIGN KEY ({self.
         return f'''-- Удаляем языкозависимые столбцы
 ALTER TABLE dbo.{self.table}Invariant DROP COLUMN {drop_columns_str};'''
 
-    def _delete_dependencies(self):
-        constraints = sorted(list_columns_constraints(self.table, self.ru_columns))
-        drop_constraints = (
-            f"ALTER TABLE dbo.{self.table}Invariant DROP CONSTRAINT {constraint};"
-            for constraint in constraints
-        )
-        indexes = list_column_indexes(self.table, self.ru_columns)
-        drop_indexes = (
-            f'DROP INDEX {index} ON {self.table}Invariant;'
-            for index in indexes
-            if index not in constraints
-        )
-        drop_dependencies_str = '\n'.join(chain(drop_constraints, drop_indexes))
-
-        return f'''-- Удаляем ограничения и индексы
-{drop_dependencies_str}'''
-
     def _insert_data_from_invariant(self):
         insert_columns_str = ', '.join(self.ru_columns_without_computed)
 
@@ -128,3 +128,25 @@ ALTER TABLE dbo.{self.table}Invariant DROP COLUMN {drop_columns_str};'''
 INSERT INTO dbo.{self.table}Language ({self.table}ID, {insert_columns_str})
 SELECT {self.pk} AS {self.table}Id, {insert_columns_str}
 FROM {self.table}Invariant;'''
+
+
+def _delete_dependencies(table, columns, table_name=None):
+    table_name = table_name or table
+    constraints = sorted(list_columns_constraints(table, columns))
+    drop_constraints = (
+        f"ALTER TABLE dbo.{table_name} DROP CONSTRAINT {constraint};"
+        for constraint in constraints
+    )
+    indexes = list_column_indexes(table, columns)
+    drop_indexes = (
+        f'DROP INDEX {index} ON {table_name};'
+        for index in indexes
+        if index not in constraints
+    )
+    drop_dependencies_str = '\n'.join(chain(drop_constraints, drop_indexes))
+
+    if drop_dependencies_str:
+        return f'''-- Удаляем ограничения и индексы
+{drop_dependencies_str}'''
+    else:
+        return ''

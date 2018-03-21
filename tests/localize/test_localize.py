@@ -19,6 +19,8 @@ def test_identify_table_type(table, type_):
 
 @pytest.mark.parametrize('table, localizer', [
     ('RefrTabl', OnlyRuColumnsTableLocalizer),
+    ('DensTabl', OnlyRuColumnsTableLocalizer),
+
     ('AcOpTabl', HasRuColumnsTableLocalizer),
     ('HeadTabl', HasRuColumnsTableLocalizer),
     ('ElemTabl', HasRuColumnsTableLocalizer)

@@ -2,7 +2,7 @@ from crystal.tables.columns import fetch_table_columns, drop_computed_columns, g
 from crystal.tables.tables import fetch_table_names, filter_system_tables
 
 if __name__ == '__main__':
-    with open('scripts/tables/Crystal_en-to-Crystal.sql', 'w', encoding='utf-8') as f:
+    with open('scripts/Crystal_en-to-Crystal.sql', 'w', encoding='utf-8') as f:
 
         print('''INSERT INTO Crystal.dbo.SingTabl
 (HeadClue, SingType, SingClue)
