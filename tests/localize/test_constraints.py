@@ -1,4 +1,4 @@
-from crystal.tables.constraints import list_default_constraints
+from crystal.tables.dependencies import list_default_constraints
 
 
 def test_list_default_constraints():

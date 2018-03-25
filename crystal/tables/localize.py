@@ -1,11 +1,9 @@
 import os
-from itertools import chain
 from operator import itemgetter
 
 from crystal.tables.columns import get_primary_key, filter_system_columns, find_ru_columns, filter_computed_columns, \
     identify_columns_types, fetch_text_columns
-from crystal.tables.constraints import list_columns_constraints
-from crystal.tables.indexes import list_column_indexes
+from crystal.tables.dependencies import delete_dependencies
 
 DEFAULT_LANGUAGE_ID = os.getenv('DEFAULT_LANGUAGE_ID', 1)
 
@@ -42,7 +40,7 @@ class OnlyRuColumnsTableLocalizer(Localizer):
     def localize(self):
         queries = '\nGO\n'.join(list(filter(None, [
             self._add_language_column(),
-            _delete_dependencies(self.table, self.text_columns),
+            delete_dependencies(self.table, self.text_columns),
             self._rename_table()
         ])))
 
@@ -76,7 +74,7 @@ class HasRuColumnsTableLocalizer(Localizer):
                     self._create_language_table(),
                     self._add_foreign_key_to_language_table(),
                     self._insert_data_from_invariant(),
-                    _delete_dependencies(self.table, self.ru_columns, f'{self.table}Invariant'),
+                    delete_dependencies(self.table, self.ru_columns, f'{self.table}Invariant'),
                     self._delete_language_dependent_columns(),
                 ]
             )
@@ -130,23 +128,3 @@ SELECT {self.pk} AS {self.table}Id, {insert_columns_str}
 FROM {self.table}Invariant;'''
 
 
-def _delete_dependencies(table, columns, table_name=None):
-    table_name = table_name or table
-    constraints = sorted(list_columns_constraints(table, columns))
-    drop_constraints = (
-        f"ALTER TABLE dbo.{table_name} DROP CONSTRAINT {constraint};"
-        for constraint in constraints
-    )
-    indexes = list_column_indexes(table, columns)
-    drop_indexes = (
-        f'DROP INDEX {index} ON {table_name};'
-        for index in indexes
-        if index not in constraints
-    )
-    drop_dependencies_str = '\n'.join(chain(drop_constraints, drop_indexes))
-
-    if drop_dependencies_str:
-        return f'''-- Удаляем ограничения и индексы
-{drop_dependencies_str}'''
-    else:
-        return ''
