@@ -6,9 +6,7 @@ MnOpTabl
 SuspTabl
 RefrcInd
 CuryTabl
-LitrTabl
 Elastic1
-Wavepure
 AcOpTabl
 NlOpTabl
 DecrTabl
