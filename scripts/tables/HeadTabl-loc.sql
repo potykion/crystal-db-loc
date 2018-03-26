@@ -21,8 +21,8 @@ ADD CONSTRAINT FK_HeadTablLanguage_HeadTablInvariant FOREIGN KEY (HeadTablID)
 ;
 GO
 -- Вставляем столбцы
-INSERT INTO dbo.HeadTablLanguage (HeadTablID, Expert, System)
-SELECT HeadClue AS HeadTablId, Expert, System
+INSERT INTO dbo.HeadTablLanguage (HeadTablID, Expert, System, LanguageID)
+SELECT HeadClue AS HeadTablId, Expert, System, LanguageID
 FROM HeadTablInvariant;
 GO
 -- Удаляем ограничения и индексы
@@ -30,5 +30,5 @@ ALTER TABLE dbo.HeadTablInvariant DROP CONSTRAINT DF_HeadTabl_Expert;
 ALTER TABLE dbo.HeadTablInvariant DROP CONSTRAINT DF_HeadTabl_System;
 GO
 -- Удаляем языкозависимые столбцы
-ALTER TABLE dbo.HeadTablInvariant DROP COLUMN Expert, System;
+ALTER TABLE dbo.HeadTablInvariant DROP COLUMN Expert, System, LanguageID;
 GO

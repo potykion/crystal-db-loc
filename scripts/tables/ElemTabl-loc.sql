@@ -21,13 +21,13 @@ ADD CONSTRAINT FK_ElemTablLanguage_ElemTablInvariant FOREIGN KEY (ElemTablID)
 ;
 GO
 -- Вставляем столбцы
-INSERT INTO dbo.ElemTablLanguage (ElemTablID, MethodP)
-SELECT ID AS ElemTablId, MethodP
+INSERT INTO dbo.ElemTablLanguage (ElemTablID, MethodP, LanguageID)
+SELECT ID AS ElemTablId, MethodP, LanguageID
 FROM ElemTablInvariant;
 GO
 -- Удаляем ограничения и индексы
 DROP INDEX IX_ElemTabl ON ElemTablInvariant;
 GO
 -- Удаляем языкозависимые столбцы
-ALTER TABLE dbo.ElemTablInvariant DROP COLUMN __MethodP, MethodP;
+ALTER TABLE dbo.ElemTablInvariant DROP COLUMN __MethodP, MethodP, LanguageID;
 GO

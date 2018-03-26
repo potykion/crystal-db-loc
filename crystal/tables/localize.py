@@ -39,7 +39,7 @@ class OnlyRuColumnsTableLocalizer(Localizer):
 
     def localize(self):
         queries = '\nGO\n'.join(list(filter(None, [
-            self._add_language_column(),
+            # self._add_language_column(),
             delete_dependencies(self.table, self.text_columns),
             self._rename_table()
         ])))
@@ -115,12 +115,12 @@ ADD CONSTRAINT FK_{self.table}Language_{self.table}Invariant FOREIGN KEY ({self.
 ;'''
 
     def _delete_language_dependent_columns(self):
-        drop_columns_str = ', '.join(self.computed_columns + self.ru_columns_without_computed)
+        drop_columns_str = ', '.join(self.computed_columns + self.ru_columns_without_computed + ['LanguageID'])
         return f'''-- Удаляем языкозависимые столбцы
 ALTER TABLE dbo.{self.table}Invariant DROP COLUMN {drop_columns_str};'''
 
     def _insert_data_from_invariant(self):
-        insert_columns_str = ', '.join(self.ru_columns_without_computed)
+        insert_columns_str = ', '.join(self.ru_columns_without_computed  + ['LanguageID'])
 
         return f'''-- Вставляем столбцы
 INSERT INTO dbo.{self.table}Language ({self.table}ID, {insert_columns_str})

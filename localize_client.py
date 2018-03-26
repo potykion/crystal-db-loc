@@ -21,33 +21,6 @@ sp_msforeachtable 'ALTER TABLE ? DISABLE TRIGGER all'
 GO
 '''
 
-EN_TABLES_WITHOUT_PK = [
-    'RefrcInd',
-    'LitrTabl',
-    'DielDiss',
-    'HeatTabl',
-    'Elastic1',
-    'ConstSel',
-    'Wavepure',
-    'Dielectr',
-    'GrafTabl',
-    'PlavTabl',
-    'ElemTabl',
-    'LastModified',
-    'ElOpTabl',
-    'DecrTabl',
-    'HeatExpn',
-    'AcOpTabl',
-    'MechTabl',
-    'MnOpTabl',
-    'NlOpTabl',
-    'PzElTabl',
-    'CuryTabl',
-    'SistTabl',
-    'SuspTabl',
-    'ModfTabl'
-]
-
 IS_EN_DB = DATABASE == 'Crystal_en'
 
 if __name__ == '__main__':
@@ -57,13 +30,8 @@ if __name__ == '__main__':
     with open(f'scripts/{DATABASE}-translate.sql', encoding='utf-8', mode='w') as f:
         print(F'use {DATABASE};\n', file=f)
 
-        print(COMMON_STUFF, file=f)
-
-        if IS_EN_DB:
-            print(create_pk('Properties_Complex', 'NOMPROP'), file=f)
-            for table in EN_TABLES_WITHOUT_PK:
-                print(create_id_pk(table), file=f)
-        else:
+        if not IS_EN_DB:
+            print(COMMON_STUFF, file=f)
             print(create_pk('DensTabl', 'ID'), file=f)
 
         for table in tables:

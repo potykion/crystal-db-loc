@@ -22,13 +22,13 @@ ADD CONSTRAINT FK_AcOpTablLanguage_AcOpTablInvariant FOREIGN KEY (AcOpTablID)
 ;
 GO
 -- Вставляем столбцы
-INSERT INTO dbo.AcOpTablLanguage (AcOpTablID, E, Nsv, Uzv)
-SELECT ID AS AcOpTablId, E, Nsv, Uzv
+INSERT INTO dbo.AcOpTablLanguage (AcOpTablID, E, Nsv, Uzv, LanguageID)
+SELECT ID AS AcOpTablId, E, Nsv, Uzv, LanguageID
 FROM AcOpTablInvariant;
 GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.AcOpTablInvariant DROP CONSTRAINT U_AcOpTabl;
 GO
 -- Удаляем языкозависимые столбцы
-ALTER TABLE dbo.AcOpTablInvariant DROP COLUMN E, Nsv, Uzv;
+ALTER TABLE dbo.AcOpTablInvariant DROP COLUMN E, Nsv, Uzv, LanguageID;
 GO

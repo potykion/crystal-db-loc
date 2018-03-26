@@ -1,3 +1,4 @@
+use Crystal;
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.ModfTabl DROP CONSTRAINT U_ModfTabl;
 -- Удаляем ограничения и индексы
@@ -14,10 +15,8 @@ ALTER TABLE dbo.SuspTabl DROP CONSTRAINT U_SuspTabl;
 ALTER TABLE dbo.RefrcInd DROP CONSTRAINT U_RefrcInd;
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.CuryTabl DROP CONSTRAINT U_CuryTabl;
-
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.Elastic1 DROP CONSTRAINT U_Elastic1;
-
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.AcOpTabl DROP CONSTRAINT U_AcOpTabl;
 -- Удаляем ограничения и индексы
@@ -25,8 +24,6 @@ ALTER TABLE dbo.NlOpTabl DROP CONSTRAINT U_NlOpTabl;
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.DecrTabl DROP CONSTRAINT U_DecrTabl;
 
--- Удаляем ограничения и индексы
-ALTER TABLE dbo.SistTabl DROP CONSTRAINT U_SistTabl;
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.Dielectr DROP CONSTRAINT U_Dielectr;
 -- Удаляем ограничения и индексы

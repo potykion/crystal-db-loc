@@ -11,7 +11,6 @@ AcOpTabl
 NlOpTabl
 DecrTabl
 LastModified
-SistTabl
 Dielectr
 DielDiss
 PzElTabl

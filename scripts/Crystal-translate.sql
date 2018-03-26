@@ -20,9 +20,6 @@ ALTER TABLE dbo.DensTabl ADD PRIMARY KEY (ID);
 GO
 
 --- Таблица - DielDiss
---- Добавляем столбец LanguageID
-ALTER TABLE dbo.DielDiss ADD LanguageID int NOT NULL DEFAULT(1);
-GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.DielDiss DROP CONSTRAINT U_DielDiss;
 GO
@@ -54,21 +51,18 @@ ADD CONSTRAINT FK_Elastic1Language_Elastic1Invariant FOREIGN KEY (Elastic1ID)
 ;
 GO
 -- Вставляем столбцы
-INSERT INTO dbo.Elastic1Language (Elastic1ID, MethodE, ZnE)
-SELECT ID AS Elastic1Id, MethodE, ZnE
+INSERT INTO dbo.Elastic1Language (Elastic1ID, MethodE, ZnE, LanguageID)
+SELECT ID AS Elastic1Id, MethodE, ZnE, LanguageID
 FROM Elastic1Invariant;
 GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.Elastic1Invariant DROP CONSTRAINT U_Elastic1;
 GO
 -- Удаляем языкозависимые столбцы
-ALTER TABLE dbo.Elastic1Invariant DROP COLUMN __MethodE, MethodE, ZnE;
+ALTER TABLE dbo.Elastic1Invariant DROP COLUMN __MethodE, MethodE, ZnE, LanguageID;
 GO
 
 --- Таблица - ElOpTabl
---- Добавляем столбец LanguageID
-ALTER TABLE dbo.ElOpTabl ADD LanguageID int NOT NULL DEFAULT(1);
-GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.ElOpTabl DROP CONSTRAINT U_ElOpTabl;
 GO
@@ -77,9 +71,6 @@ sp_rename 'ElOpTabl', 'ElOpTablLanguage';
 GO
 
 --- Таблица - EsOpTabl
---- Добавляем столбец LanguageID
-ALTER TABLE dbo.EsOpTabl ADD LanguageID int NOT NULL DEFAULT(1);
-GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.EsOpTabl DROP CONSTRAINT U_EsOpTabl;
 GO
@@ -88,17 +79,11 @@ sp_rename 'EsOpTabl', 'EsOpTablLanguage';
 GO
 
 --- Таблица - ElemTablNew
---- Добавляем столбец LanguageID
-ALTER TABLE dbo.ElemTablNew ADD LanguageID int NOT NULL DEFAULT(1);
-GO
 --- Добавляем Language к названию
 sp_rename 'ElemTablNew', 'ElemTablNewLanguage';
 GO
 
 --- Таблица - MechTabl
---- Добавляем столбец LanguageID
-ALTER TABLE dbo.MechTabl ADD LanguageID int NOT NULL DEFAULT(1);
-GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.MechTabl DROP CONSTRAINT U_MechTabl;
 GO
@@ -129,15 +114,15 @@ ADD CONSTRAINT FK_MnOpTablLanguage_MnOpTablInvariant FOREIGN KEY (MnOpTablID)
 ;
 GO
 -- Вставляем столбцы
-INSERT INTO dbo.MnOpTablLanguage (MnOpTablID, MethodK)
-SELECT ID AS MnOpTablId, MethodK
+INSERT INTO dbo.MnOpTablLanguage (MnOpTablID, MethodK, LanguageID)
+SELECT ID AS MnOpTablId, MethodK, LanguageID
 FROM MnOpTablInvariant;
 GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.MnOpTablInvariant DROP CONSTRAINT U_MnOpTabl;
 GO
 -- Удаляем языкозависимые столбцы
-ALTER TABLE dbo.MnOpTablInvariant DROP COLUMN __MethodK, MethodK;
+ALTER TABLE dbo.MnOpTablInvariant DROP COLUMN __MethodK, MethodK, LanguageID;
 GO
 
 --- Таблица ModfTabl
@@ -162,21 +147,18 @@ ADD CONSTRAINT FK_ModfTablLanguage_ModfTablInvariant FOREIGN KEY (ModfTablID)
 ;
 GO
 -- Вставляем столбцы
-INSERT INTO dbo.ModfTablLanguage (ModfTablID, SpaceGrp)
-SELECT ID AS ModfTablId, SpaceGrp
+INSERT INTO dbo.ModfTablLanguage (ModfTablID, SpaceGrp, LanguageID)
+SELECT ID AS ModfTablId, SpaceGrp, LanguageID
 FROM ModfTablInvariant;
 GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.ModfTablInvariant DROP CONSTRAINT U_ModfTabl;
 GO
 -- Удаляем языкозависимые столбцы
-ALTER TABLE dbo.ModfTablInvariant DROP COLUMN SpaceGrp;
+ALTER TABLE dbo.ModfTablInvariant DROP COLUMN SpaceGrp, LanguageID;
 GO
 
 --- Таблица - NlOpTabl
---- Добавляем столбец LanguageID
-ALTER TABLE dbo.NlOpTabl ADD LanguageID int NOT NULL DEFAULT(1);
-GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.NlOpTabl DROP CONSTRAINT U_NlOpTabl;
 GO
@@ -207,21 +189,18 @@ ADD CONSTRAINT FK_PzElTablLanguage_PzElTablInvariant FOREIGN KEY (PzElTablID)
 ;
 GO
 -- Вставляем столбцы
-INSERT INTO dbo.PzElTablLanguage (PzElTablID, MethodPz)
-SELECT ID AS PzElTablId, MethodPz
+INSERT INTO dbo.PzElTablLanguage (PzElTablID, MethodPz, LanguageID)
+SELECT ID AS PzElTablId, MethodPz, LanguageID
 FROM PzElTablInvariant;
 GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.PzElTablInvariant DROP CONSTRAINT U_PzElTabl;
 GO
 -- Удаляем языкозависимые столбцы
-ALTER TABLE dbo.PzElTablInvariant DROP COLUMN __MethodPz, MethodPz;
+ALTER TABLE dbo.PzElTablInvariant DROP COLUMN __MethodPz, MethodPz, LanguageID;
 GO
 
 --- Таблица - RefrTabl
---- Добавляем столбец LanguageID
-ALTER TABLE dbo.RefrTabl ADD LanguageID int NOT NULL DEFAULT(1);
-GO
 --- Добавляем Language к названию
 sp_rename 'RefrTabl', 'RefrTablLanguage';
 GO
@@ -249,21 +228,18 @@ ADD CONSTRAINT FK_RefrcIndLanguage_RefrcIndInvariant FOREIGN KEY (RefrcIndID)
 ;
 GO
 -- Вставляем столбцы
-INSERT INTO dbo.RefrcIndLanguage (RefrcIndID, MethodIn)
-SELECT ID AS RefrcIndId, MethodIn
+INSERT INTO dbo.RefrcIndLanguage (RefrcIndID, MethodIn, LanguageID)
+SELECT ID AS RefrcIndId, MethodIn, LanguageID
 FROM RefrcIndInvariant;
 GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.RefrcIndInvariant DROP CONSTRAINT U_RefrcInd;
 GO
 -- Удаляем языкозависимые столбцы
-ALTER TABLE dbo.RefrcIndInvariant DROP COLUMN __MethodIn, MethodIn;
+ALTER TABLE dbo.RefrcIndInvariant DROP COLUMN __MethodIn, MethodIn, LanguageID;
 GO
 
 --- Таблица - LastModified
---- Добавляем столбец LanguageID
-ALTER TABLE dbo.LastModified ADD LanguageID int NOT NULL DEFAULT(1);
-GO
 --- Добавляем Language к названию
 sp_rename 'LastModified', 'LastModifiedLanguage';
 GO
@@ -292,21 +268,18 @@ ADD CONSTRAINT FK_DielectrLanguage_DielectrInvariant FOREIGN KEY (DielectrID)
 ;
 GO
 -- Вставляем столбцы
-INSERT INTO dbo.DielectrLanguage (DielectrID, MethodY, Znak)
-SELECT ID AS DielectrId, MethodY, Znak
+INSERT INTO dbo.DielectrLanguage (DielectrID, MethodY, Znak, LanguageID)
+SELECT ID AS DielectrId, MethodY, Znak, LanguageID
 FROM DielectrInvariant;
 GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.DielectrInvariant DROP CONSTRAINT U_Dielectr;
 GO
 -- Удаляем языкозависимые столбцы
-ALTER TABLE dbo.DielectrInvariant DROP COLUMN __MethodY, MethodY, Znak;
+ALTER TABLE dbo.DielectrInvariant DROP COLUMN __MethodY, MethodY, Znak, LanguageID;
 GO
 
 --- Таблица - GrafTabl
---- Добавляем столбец LanguageID
-ALTER TABLE dbo.GrafTabl ADD LanguageID int NOT NULL DEFAULT(1);
-GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.GrafTabl DROP CONSTRAINT U_GrafTabl;
 GO
@@ -315,9 +288,6 @@ sp_rename 'GrafTabl', 'GrafTablLanguage';
 GO
 
 --- Таблица - PlavTabl
---- Добавляем столбец LanguageID
-ALTER TABLE dbo.PlavTabl ADD LanguageID int NOT NULL DEFAULT(1);
-GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.PlavTabl DROP CONSTRAINT U_PlavTabl;
 GO
@@ -348,21 +318,18 @@ ADD CONSTRAINT FK_ElemTablLanguage_ElemTablInvariant FOREIGN KEY (ElemTablID)
 ;
 GO
 -- Вставляем столбцы
-INSERT INTO dbo.ElemTablLanguage (ElemTablID, MethodP)
-SELECT ID AS ElemTablId, MethodP
+INSERT INTO dbo.ElemTablLanguage (ElemTablID, MethodP, LanguageID)
+SELECT ID AS ElemTablId, MethodP, LanguageID
 FROM ElemTablInvariant;
 GO
 -- Удаляем ограничения и индексы
 DROP INDEX IX_ElemTabl ON ElemTablInvariant;
 GO
 -- Удаляем языкозависимые столбцы
-ALTER TABLE dbo.ElemTablInvariant DROP COLUMN __MethodP, MethodP;
+ALTER TABLE dbo.ElemTablInvariant DROP COLUMN __MethodP, MethodP, LanguageID;
 GO
 
 --- Таблица - CuryTabl
---- Добавляем столбец LanguageID
-ALTER TABLE dbo.CuryTabl ADD LanguageID int NOT NULL DEFAULT(1);
-GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.CuryTabl DROP CONSTRAINT U_CuryTabl;
 GO
@@ -371,9 +338,6 @@ sp_rename 'CuryTabl', 'CuryTablLanguage';
 GO
 
 --- Таблица - HardTabl
---- Добавляем столбец LanguageID
-ALTER TABLE dbo.HardTabl ADD LanguageID int NOT NULL DEFAULT(1);
-GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.HardTabl DROP CONSTRAINT U_HardTabl;
 GO
@@ -382,9 +346,6 @@ sp_rename 'HardTabl', 'HardTablLanguage';
 GO
 
 --- Таблица - SuspTabl
---- Добавляем столбец LanguageID
-ALTER TABLE dbo.SuspTabl ADD LanguageID int NOT NULL DEFAULT(1);
-GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.SuspTabl DROP CONSTRAINT U_SuspTabl;
 GO
@@ -393,9 +354,6 @@ sp_rename 'SuspTabl', 'SuspTablLanguage';
 GO
 
 --- Таблица - DecrTabl
---- Добавляем столбец LanguageID
-ALTER TABLE dbo.DecrTabl ADD LanguageID int NOT NULL DEFAULT(1);
-GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.DecrTabl DROP CONSTRAINT U_DecrTabl;
 GO
@@ -425,26 +383,20 @@ ADD CONSTRAINT FK_PropertiesLanguage_PropertiesInvariant FOREIGN KEY (Properties
 ;
 GO
 -- Вставляем столбцы
-INSERT INTO dbo.PropertiesLanguage (PropertiesID, NAZVPROP)
-SELECT NOMPROP AS PropertiesId, NAZVPROP
+INSERT INTO dbo.PropertiesLanguage (PropertiesID, NAZVPROP, LanguageID)
+SELECT NOMPROP AS PropertiesId, NAZVPROP, LanguageID
 FROM PropertiesInvariant;
 GO
 -- Удаляем языкозависимые столбцы
-ALTER TABLE dbo.PropertiesInvariant DROP COLUMN NAZVPROP;
+ALTER TABLE dbo.PropertiesInvariant DROP COLUMN NAZVPROP, LanguageID;
 GO
 
 --- Таблица - Properties_Complex
---- Добавляем столбец LanguageID
-ALTER TABLE dbo.Properties_Complex ADD LanguageID int NOT NULL DEFAULT(1);
-GO
 --- Добавляем Language к названию
 sp_rename 'Properties_Complex', 'Properties_ComplexLanguage';
 GO
 
 --- Таблица - HeatExpn
---- Добавляем столбец LanguageID
-ALTER TABLE dbo.HeatExpn ADD LanguageID int NOT NULL DEFAULT(1);
-GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.HeatExpn DROP CONSTRAINT U_HeatExpn;
 GO
@@ -475,21 +427,18 @@ ADD CONSTRAINT FK_HeatTablLanguage_HeatTablInvariant FOREIGN KEY (HeatTablID)
 ;
 GO
 -- Вставляем столбцы
-INSERT INTO dbo.HeatTablLanguage (HeatTablID, MethodC)
-SELECT ID AS HeatTablId, MethodC
+INSERT INTO dbo.HeatTablLanguage (HeatTablID, MethodC, LanguageID)
+SELECT ID AS HeatTablId, MethodC, LanguageID
 FROM HeatTablInvariant;
 GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.HeatTablInvariant DROP CONSTRAINT U_HeatTabl;
 GO
 -- Удаляем языкозависимые столбцы
-ALTER TABLE dbo.HeatTablInvariant DROP COLUMN __MethodC, MethodC;
+ALTER TABLE dbo.HeatTablInvariant DROP COLUMN __MethodC, MethodC, LanguageID;
 GO
 
 --- Таблица - DensTabl
---- Добавляем столбец LanguageID
-ALTER TABLE dbo.DensTabl ADD LanguageID int NOT NULL DEFAULT(1);
-GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.DensTabl DROP CONSTRAINT U_DensTabl;
 GO
@@ -521,15 +470,15 @@ ADD CONSTRAINT FK_AcOpTablLanguage_AcOpTablInvariant FOREIGN KEY (AcOpTablID)
 ;
 GO
 -- Вставляем столбцы
-INSERT INTO dbo.AcOpTablLanguage (AcOpTablID, E, Nsv, Uzv)
-SELECT ID AS AcOpTablId, E, Nsv, Uzv
+INSERT INTO dbo.AcOpTablLanguage (AcOpTablID, E, Nsv, Uzv, LanguageID)
+SELECT ID AS AcOpTablId, E, Nsv, Uzv, LanguageID
 FROM AcOpTablInvariant;
 GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.AcOpTablInvariant DROP CONSTRAINT U_AcOpTabl;
 GO
 -- Удаляем языкозависимые столбцы
-ALTER TABLE dbo.AcOpTablInvariant DROP COLUMN E, Nsv, Uzv;
+ALTER TABLE dbo.AcOpTablInvariant DROP COLUMN E, Nsv, Uzv, LanguageID;
 GO
 
 --- Таблица HeadTabl
@@ -555,8 +504,8 @@ ADD CONSTRAINT FK_HeadTablLanguage_HeadTablInvariant FOREIGN KEY (HeadTablID)
 ;
 GO
 -- Вставляем столбцы
-INSERT INTO dbo.HeadTablLanguage (HeadTablID, Expert, System)
-SELECT HeadClue AS HeadTablId, Expert, System
+INSERT INTO dbo.HeadTablLanguage (HeadTablID, Expert, System, LanguageID)
+SELECT HeadClue AS HeadTablId, Expert, System, LanguageID
 FROM HeadTablInvariant;
 GO
 -- Удаляем ограничения и индексы
@@ -564,7 +513,7 @@ ALTER TABLE dbo.HeadTablInvariant DROP CONSTRAINT DF_HeadTabl_Expert;
 ALTER TABLE dbo.HeadTablInvariant DROP CONSTRAINT DF_HeadTabl_System;
 GO
 -- Удаляем языкозависимые столбцы
-ALTER TABLE dbo.HeadTablInvariant DROP COLUMN Expert, System;
+ALTER TABLE dbo.HeadTablInvariant DROP COLUMN Expert, System, LanguageID;
 GO
 
 --- Таблица Bibliogr
@@ -591,12 +540,12 @@ ADD CONSTRAINT FK_BibliogrLanguage_BibliogrInvariant FOREIGN KEY (BibliogrID)
 ;
 GO
 -- Вставляем столбцы
-INSERT INTO dbo.BibliogrLanguage (BibliogrID, Authors, Source, Title)
-SELECT Bknumber AS BibliogrId, Authors, Source, Title
+INSERT INTO dbo.BibliogrLanguage (BibliogrID, Authors, Source, Title, LanguageID)
+SELECT Bknumber AS BibliogrId, Authors, Source, Title, LanguageID
 FROM BibliogrInvariant;
 GO
 -- Удаляем языкозависимые столбцы
-ALTER TABLE dbo.BibliogrInvariant DROP COLUMN Authors, Source, Title;
+ALTER TABLE dbo.BibliogrInvariant DROP COLUMN Authors, Source, Title, LanguageID;
 GO
 
 --- Таблица ConstSel
@@ -621,14 +570,14 @@ ADD CONSTRAINT FK_ConstSelLanguage_ConstSelInvariant FOREIGN KEY (ConstSelID)
 ;
 GO
 -- Вставляем столбцы
-INSERT INTO dbo.ConstSelLanguage (ConstSelID, Measure)
-SELECT ID AS ConstSelId, Measure
+INSERT INTO dbo.ConstSelLanguage (ConstSelID, Measure, LanguageID)
+SELECT ID AS ConstSelId, Measure, LanguageID
 FROM ConstSelInvariant;
 GO
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.ConstSelInvariant DROP CONSTRAINT U_ConstSel;
 GO
 -- Удаляем языкозависимые столбцы
-ALTER TABLE dbo.ConstSelInvariant DROP COLUMN Measure;
+ALTER TABLE dbo.ConstSelInvariant DROP COLUMN Measure, LanguageID;
 GO
 
