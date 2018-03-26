@@ -1,5 +1,6 @@
 import os
 
+from crystal.id_tables.tables import TABLES_WITH_NON_ID_PK
 from crystal.tables.localize import identify_table_type, OnlyRuColumnsTableLocalizer, HasRuColumnsTableLocalizer
 from crystal.tables.tables import fetch_table_names, filter_system_tables, create_id_pk, create_pk
 
@@ -25,10 +26,13 @@ IS_EN_DB = DATABASE == 'Crystal_en'
 
 if __name__ == '__main__':
 
-    tables = list(filter_system_tables(fetch_table_names()))
+    if IS_EN_DB:
+        tables = TABLES_WITH_NON_ID_PK
+    else:
+        tables = list(filter_system_tables(fetch_table_names()))
 
     with open(f'scripts/{DATABASE}-translate.sql', encoding='utf-8', mode='w') as f:
-        print(F'use {DATABASE};\n', file=f)
+        print(F'use {DATABASE};\nGO\n', file=f)
 
         if not IS_EN_DB:
             print(COMMON_STUFF, file=f)
@@ -41,11 +45,4 @@ if __name__ == '__main__':
                 print(OnlyRuColumnsTableLocalizer(table).localize(), file=f)
             elif type_ == 'HAS_RU_COLUMNS':
                 localized = HasRuColumnsTableLocalizer(table).localize()
-
-                if table == 'ElemTabl' and IS_EN_DB:
-                    localized = localized.replace(
-                        'DROP INDEX IX_ElemTabl ON ElemTablInvariant;',
-                        'ALTER TABLE dbo.ElemTablInvariant DROP CONSTRAINT U_ElemTabl;'
-                    )
-
                 print(localized, file=f)

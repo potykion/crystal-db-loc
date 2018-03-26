@@ -25,9 +25,8 @@ INSERT INTO dbo.HeadTablLanguage (HeadTablID, Expert, System, LanguageID)
 SELECT HeadClue AS HeadTablId, Expert, System, LanguageID
 FROM HeadTablInvariant;
 GO
--- Удаляем ограничения и индексы
-ALTER TABLE dbo.HeadTablInvariant DROP CONSTRAINT DF_HeadTabl_Expert;
-ALTER TABLE dbo.HeadTablInvariant DROP CONSTRAINT DF_HeadTabl_System;
+-- Удаляем LanguageID ограничение
+ALTER TABLE HeadTablInvariant DROP CONSTRAINT DF_HeadTabl_LanguageID
 GO
 -- Удаляем языкозависимые столбцы
 ALTER TABLE dbo.HeadTablInvariant DROP COLUMN Expert, System, LanguageID;

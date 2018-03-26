@@ -25,8 +25,8 @@ INSERT INTO dbo.ElemTablLanguage (ElemTablID, MethodP, LanguageID)
 SELECT ID AS ElemTablId, MethodP, LanguageID
 FROM ElemTablInvariant;
 GO
--- Удаляем ограничения и индексы
-DROP INDEX IX_ElemTabl ON ElemTablInvariant;
+-- Удаляем LanguageID ограничение
+ALTER TABLE ElemTablInvariant DROP CONSTRAINT DF_ElemTabl_LanguageID
 GO
 -- Удаляем языкозависимые столбцы
 ALTER TABLE dbo.ElemTablInvariant DROP COLUMN __MethodP, MethodP, LanguageID;

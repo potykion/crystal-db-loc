@@ -3,9 +3,11 @@ from operator import itemgetter
 
 from crystal.tables.columns import get_primary_key, filter_system_columns, find_ru_columns, filter_computed_columns, \
     identify_columns_types, fetch_text_columns
-from crystal.tables.dependencies import delete_dependencies
 
 DEFAULT_LANGUAGE_ID = os.getenv('DEFAULT_LANGUAGE_ID', 1)
+
+DELETE_LANGUAGE_ID_CONSTRAINT = '''-- Удаляем LanguageID ограничение
+ALTER TABLE {0} DROP CONSTRAINT DF_{1}_LanguageID'''
 
 
 def identify_table_type(table):
@@ -39,8 +41,7 @@ class OnlyRuColumnsTableLocalizer(Localizer):
 
     def localize(self):
         queries = '\nGO\n'.join(list(filter(None, [
-            # self._add_language_column(),
-            delete_dependencies(self.table, self.text_columns),
+            DELETE_LANGUAGE_ID_CONSTRAINT.format(self.table, self.table),
             self._rename_table()
         ])))
 
@@ -74,7 +75,7 @@ class HasRuColumnsTableLocalizer(Localizer):
                     self._create_language_table(),
                     self._add_foreign_key_to_language_table(),
                     self._insert_data_from_invariant(),
-                    delete_dependencies(self.table, self.ru_columns, f'{self.table}Invariant'),
+                    DELETE_LANGUAGE_ID_CONSTRAINT.format(F'{self.table}Invariant', self.table),
                     self._delete_language_dependent_columns(),
                 ]
             )
@@ -120,11 +121,9 @@ ADD CONSTRAINT FK_{self.table}Language_{self.table}Invariant FOREIGN KEY ({self.
 ALTER TABLE dbo.{self.table}Invariant DROP COLUMN {drop_columns_str};'''
 
     def _insert_data_from_invariant(self):
-        insert_columns_str = ', '.join(self.ru_columns_without_computed  + ['LanguageID'])
+        insert_columns_str = ', '.join(self.ru_columns_without_computed + ['LanguageID'])
 
         return f'''-- Вставляем столбцы
 INSERT INTO dbo.{self.table}Language ({self.table}ID, {insert_columns_str})
 SELECT {self.pk} AS {self.table}Id, {insert_columns_str}
 FROM {self.table}Invariant;'''
-
-

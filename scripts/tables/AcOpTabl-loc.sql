@@ -26,8 +26,8 @@ INSERT INTO dbo.AcOpTablLanguage (AcOpTablID, E, Nsv, Uzv, LanguageID)
 SELECT ID AS AcOpTablId, E, Nsv, Uzv, LanguageID
 FROM AcOpTablInvariant;
 GO
--- Удаляем ограничения и индексы
-ALTER TABLE dbo.AcOpTablInvariant DROP CONSTRAINT U_AcOpTabl;
+-- Удаляем LanguageID ограничение
+ALTER TABLE AcOpTablInvariant DROP CONSTRAINT DF_AcOpTabl_LanguageID
 GO
 -- Удаляем языкозависимые столбцы
 ALTER TABLE dbo.AcOpTablInvariant DROP COLUMN E, Nsv, Uzv, LanguageID;
