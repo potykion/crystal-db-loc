@@ -135,11 +135,6 @@ insert into Crystal.dbo.LastModified
 select 
 Text, LastModified, LanguageID
 from Crystal_en.dbo.LastModified;
-insert into Crystal.dbo.SistTabl
-(HeadClue, ElemNumb, MinValue, MaxValue, LanguageID)
-select 
-HeadClue, ElemNumb, MinValue, MaxValue, LanguageID
-from Crystal_en.dbo.SistTabl;
 insert into Crystal.dbo.Dielectr
 (HeadClue, SingCode, FreqDiel, Temper_2, Constant, Znak, Diel, ErrY, MethodY, Bknumber, LanguageID)
 select 
