@@ -1,4 +1,5 @@
 use Crystal_en;
+GO
 
 --- Таблица Properties
 --- Переименовываем Properties
