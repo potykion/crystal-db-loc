@@ -28,7 +28,7 @@ def test_identify_table_type(table, type_):
 def test_localize(table, localizer):
     localization_data = localizer(table).localize()
 
-    with open(f'../scripts/tables/{table}-loc.sql', encoding='utf-8') as f:
+    with open(f'../scripts/localize_tables/{table}-loc.sql', encoding='utf-8') as f:
         expected = f.read()
 
     assert localization_data == expected

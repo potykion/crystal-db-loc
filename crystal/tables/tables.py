@@ -24,3 +24,10 @@ def create_pk(table, column):
 ALTER TABLE dbo.{table} ADD PRIMARY KEY ({column});
 GO
 '''
+
+
+def list_related_tables(table):
+    return [
+        (fk['FKTABLE_NAME'], fk['FKCOLUMN_NAME'])
+        for fk in db.query(f"exec sp_fkeys '{table}'").all()
+    ]

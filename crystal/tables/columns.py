@@ -122,8 +122,15 @@ def filter_computed_columns(table, columns):
         f"WHERE name in ({columns_str}) AND object_id = OBJECT_ID('{table}') "
         "AND is_computed = 1"
     )
-    non_computed_columns = db.query(query)
+    computed_columns = db.query(query)
     return [
         column['name']
-        for column in non_computed_columns
+        for column in computed_columns
     ]
+
+
+def drop_related_computed_columns(columns, table):
+    computed_columns = filter_computed_columns(table, columns)
+    for column in computed_columns:
+        columns.remove(column.strip('_'))
+    return columns
