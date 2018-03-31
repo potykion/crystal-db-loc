@@ -9,7 +9,6 @@ ALTER TABLE MnOpTablInvariant ADD CONSTRAINT U_MnOpTablInvariant UNIQUE (HeadClu
 ALTER TABLE ModfTablInvariant ADD CONSTRAINT U_ModfTablInvariant UNIQUE (HeadClue, SingCode, SuprTemp, SP2, ErrSupr, PointGrp, Z, Bknumber)
 ALTER TABLE NlOpTablLanguage ADD CONSTRAINT U_NlOpTablLanguage UNIQUE (HeadClue, SingCode, Lyambda, ZnR, Rij, ErrRij, Bknumber, __MethodR, LanguageID)
 ALTER TABLE PzElTablInvariant ADD CONSTRAINT U_PzElTablInvariant UNIQUE (HeadClue, SingCode, FreqPzEl, ConstD, D, ErrD, Bknumber)
-ALTER TABLE RefrTablLanguage ADD CONSTRAINT U_RefrTablLanguage UNIQUE (Referat, LanguageID)
 ALTER TABLE RefrcIndInvariant ADD CONSTRAINT U_RefrcIndInvariant UNIQUE (HeadClue, SingCode, Temper, WaveLeng, NazbIndx, ZnachInd, ErrIndex, Bknumber)
 ALTER TABLE LastModifiedLanguage ADD CONSTRAINT U_LastModifiedLanguage UNIQUE (Text, LastModified, LanguageID)
 ALTER TABLE DielectrInvariant ADD CONSTRAINT U_DielectrInvariant UNIQUE (HeadClue, SingCode, FreqDiel, Temper_2, Constant, Diel, ErrY, Bknumber)

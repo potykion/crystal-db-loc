@@ -1,6 +1,6 @@
 import pytest
 
-from crystal.tables.duplicate import delete_duplicates
+from crystal.tables.duplicate_and_fk import delete_duplicates
 
 
 @pytest.mark.parametrize('table', [
