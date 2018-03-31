@@ -13,3 +13,5 @@ Script generators for Crystal DB multi-language support.
 # References
 
 1. [SQL Server Disabling All Triggers](https://stackoverflow.com/questions/7176720/sql-server-disabling-all-triggers-cannot-find-the-object-xxxx-because-it-doe)
+2. [Delete duplicates and update FK](http://weblogs.sqlteam.com/jeffs/archive/2004/10/07/2190.aspx)
+3. [Delete duplicates](https://stackoverflow.com/questions/18932/how-can-i-remove-duplicate-rows)

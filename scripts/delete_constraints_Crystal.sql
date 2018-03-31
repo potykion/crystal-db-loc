@@ -1,6 +1,4 @@
 use Crystal;
-ALTER TABLE dbo.SistTabl DROP CONSTRAINT U_SistTabl;
-ALTER TABLE dbo.Wavepure DROP CONSTRAINT U_WavePure;
 -- Удаляем ограничения и индексы
 ALTER TABLE dbo.ModfTabl DROP CONSTRAINT U_ModfTabl;
 -- Удаляем ограничения и индексы

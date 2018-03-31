@@ -25,9 +25,5 @@ if __name__ == '__main__':
         with open(f'../../scripts/delete_constraints_{database}.sql', 'w', encoding='utf-8') as f:
             print(f'use {database};', file=f)
 
-            if database == 'Crystal':
-                print('ALTER TABLE dbo.SistTabl DROP CONSTRAINT U_SistTabl;', file=f)
-                print('ALTER TABLE dbo.Wavepure DROP CONSTRAINT U_WavePure;', file=f)
-
             for delete_command in delete_constraints(database, tables):
                 print(delete_command, file=f)

@@ -65,7 +65,7 @@ if __name__ == '__main__':
     invariant_tables = [
         table
         for table in filter_system_tables(fetch_table_names())
-        if table.endswith('Invariant')
+        if table.endswith('Invariant') and not table.startswith('HeadTabl')
     ]
 
     with open('../../scripts/delete_duplicates.sql', 'w', encoding='utf-8') as f:
