@@ -385,14 +385,6 @@ GO
 ALTER TABLE dbo.PropertiesInvariant DROP COLUMN NAZVPROP, LanguageID;
 GO
 
---- Таблица - Properties_Complex
--- Удаляем LanguageID ограничение
-ALTER TABLE Properties_Complex DROP CONSTRAINT DF_Properties_Complex_LanguageID
-GO
---- Добавляем Language к названию
-sp_rename 'Properties_Complex', 'Properties_ComplexLanguage';
-GO
-
 --- Таблица - HeatExpn
 -- Удаляем LanguageID ограничение
 ALTER TABLE HeatExpn DROP CONSTRAINT DF_HeatExpn_LanguageID

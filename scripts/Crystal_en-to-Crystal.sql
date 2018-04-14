@@ -45,11 +45,6 @@ select HeadClue, SingCode = (case SingCode
             end), Hard1, Hard2, ErrHard, Mohs, ErrMohs, MethodH, Bknumber, LanguageID
 from Crystal_en.dbo.HardTablLanguage
 
-insert into Crystal.dbo.Properties_ComplexLanguage 
-(NOMPROP, NAZVPROP, LanguageID)
-select NOMPROP, NAZVPROP, LanguageID
-from Crystal_en.dbo.Properties_ComplexLanguage
-
 insert into Crystal.dbo.PropertiesLanguage 
 (PropertiesID, LanguageID, NAZVPROP)
 select PropertiesID, LanguageID, NAZVPROP

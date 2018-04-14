@@ -25,7 +25,6 @@ ALTER TABLE PzElTablLanguage ADD CONSTRAINT U_PzElTablLanguage UNIQUE (PzElTablI
 ALTER TABLE RefrcIndLanguage ADD CONSTRAINT U_RefrcIndLanguage UNIQUE (RefrcIndID, LanguageID, __MethodIn)
 ALTER TABLE DecrTablLanguage ADD CONSTRAINT U_DecrTablLanguage UNIQUE (HeadClue, SingCode, Nzv, Uzv, WaveType, WaveSpeed, Decrement, DecrFreq, Bknumber, LanguageID)
 ALTER TABLE PropertiesInvariant ADD CONSTRAINT U_PropertiesInvariant UNIQUE (HTML, TableName)
-ALTER TABLE Properties_ComplexLanguage ADD CONSTRAINT U_Properties_ComplexLanguage UNIQUE (NAZVPROP, LanguageID)
 ALTER TABLE DielectrLanguage ADD CONSTRAINT U_DielectrLanguage UNIQUE (DielectrID, LanguageID, Znak, __MethodY)
 ALTER TABLE HeatExpnLanguage ADD CONSTRAINT U_HeatExpnLanguage UNIQUE (HeadClue, SingCode, DataType, Temper_1, Temper_2, Znak1, S11, ErrHExp, Bknumber, __MethodEx, LanguageID)
 ALTER TABLE ElemTablLanguage ADD CONSTRAINT U_ElemTablLanguage UNIQUE (ElemTablID, LanguageID, __MethodP)

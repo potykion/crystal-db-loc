@@ -25,7 +25,6 @@ ALTER TABLE dbo.EsOpTabl ADD LanguageID int NOT NULL CONSTRAINT DF_EsOpTabl_Lang
 ALTER TABLE dbo.Bibliogr ADD LanguageID int NOT NULL CONSTRAINT DF_Bibliogr_LanguageID DEFAULT(1);
 ALTER TABLE dbo.DensTabl ADD LanguageID int NOT NULL CONSTRAINT DF_DensTabl_LanguageID DEFAULT(1);
 ALTER TABLE dbo.RefrTabl ADD LanguageID int NOT NULL CONSTRAINT DF_RefrTabl_LanguageID DEFAULT(1);
-ALTER TABLE dbo.Properties_Complex ADD LanguageID int NOT NULL CONSTRAINT DF_Properties_Complex_LanguageID DEFAULT(1);
 ALTER TABLE dbo.HeadTabl ADD LanguageID int NOT NULL CONSTRAINT DF_HeadTabl_LanguageID DEFAULT(1);
 ALTER TABLE dbo.ElemTablNew ADD LanguageID int NOT NULL CONSTRAINT DF_ElemTablNew_LanguageID DEFAULT(1);
 ALTER TABLE dbo.HardTabl ADD LanguageID int NOT NULL CONSTRAINT DF_HardTabl_LanguageID DEFAULT(1);

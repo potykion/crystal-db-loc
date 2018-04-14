@@ -93,14 +93,6 @@ GO
 sp_rename 'RefrTabl', 'RefrTablLanguage';
 GO
 
---- Таблица - Properties_Complex
--- Удаляем LanguageID ограничение
-ALTER TABLE Properties_Complex DROP CONSTRAINT DF_Properties_Complex_LanguageID
-GO
---- Добавляем Language к названию
-sp_rename 'Properties_Complex', 'Properties_ComplexLanguage';
-GO
-
 --- Таблица HeadTabl
 --- Переименовываем HeadTabl
 sp_rename 'HeadTabl', 'HeadTablInvariant';

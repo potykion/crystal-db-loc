@@ -17,7 +17,6 @@ DELETE FROM SuspTablLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM SuspTablLangua
 DELETE FROM PzElTablLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM PzElTablLanguage GROUP BY PzElTablID, LanguageID, __MethodPz);
 DELETE FROM RefrcIndLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM RefrcIndLanguage GROUP BY RefrcIndID, LanguageID, __MethodIn);
 DELETE FROM DecrTablLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM DecrTablLanguage GROUP BY HeadClue, SingCode, Nzv, Uzv, WaveType, WaveSpeed, Decrement, DecrFreq, Bknumber, LanguageID);
-DELETE FROM Properties_ComplexLanguage WHERE NOMPROP NOT IN (SELECT MIN(NOMPROP) FROM Properties_ComplexLanguage GROUP BY NAZVPROP, LanguageID);
 DELETE FROM DielectrLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM DielectrLanguage GROUP BY DielectrID, LanguageID, Znak, __MethodY);
 DELETE FROM HeatExpnLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM HeatExpnLanguage GROUP BY HeadClue, SingCode, DataType, Temper_1, Temper_2, Znak1, S11, ErrHExp, Bknumber, __MethodEx, LanguageID);
 DELETE FROM ElemTablLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM ElemTablLanguage GROUP BY ElemTablID, LanguageID, __MethodP);

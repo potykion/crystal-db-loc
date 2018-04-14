@@ -30,8 +30,7 @@ if __name__ == '__main__':
     with open(F'scripts/delete_indexes_{DATABASE}.sql', 'w') as f:
         print(f'use {DATABASE}\nGO', file=f)
 
-        if DATABASE == 'Crystal':
-            print('''ALTER TABLE dbo.Properties DROP CONSTRAINT DF_Properties_TableName;
+        print('''ALTER TABLE dbo.Properties DROP CONSTRAINT DF_Properties_TableName;
 GO
 ALTER TABLE dbo.HeadTabl DROP CONSTRAINT DF_HeadTabl_Expert;
 GO

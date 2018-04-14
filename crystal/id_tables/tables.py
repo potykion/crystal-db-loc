@@ -25,7 +25,6 @@ EsOpTabl
 Bibliogr
 DensTabl
 RefrTabl
-Properties_Complex
 HeadTabl
 ElemTablNew
 HardTabl'''.splitlines()

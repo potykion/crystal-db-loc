@@ -30,3 +30,4 @@ Script generators for Crystal DB multi-language support.
 2. [Delete duplicates and update FK](http://weblogs.sqlteam.com/jeffs/archive/2004/10/07/2190.aspx)
 3. [Delete duplicates](https://stackoverflow.com/questions/18932/how-can-i-remove-duplicate-rows)
 4. [Insert as case](https://stackoverflow.com/questions/44976581/sql-add-a-new-column-based-on-case-expression-and-looking-up-values-from-anothe?rq=1)
+5. [How can foreign key constraints be temporarily disabled using T-SQL?](https://stackoverflow.com/questions/159038/how-can-foreign-key-constraints-be-temporarily-disabled-using-t-sql?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
