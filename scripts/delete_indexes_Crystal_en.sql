@@ -1,5 +1,7 @@
 use Crystal_en
 GO
+ALTER TABLE dbo.WavePure DROP CONSTRAINT U_WavePure;
+GO
 ALTER TABLE dbo.Properties DROP CONSTRAINT DF_Properties_TableName;
 GO
 ALTER TABLE dbo.HeadTabl DROP CONSTRAINT DF_HeadTabl_Expert;

@@ -14,7 +14,7 @@ def list_indexes():
 
 
 def is_table_index(index, tables):
-    return any(table in index['name'] for table in tables)
+    return any(table.lower() in index['name'].lower() for table in tables)
 
 
 if __name__ == '__main__':
