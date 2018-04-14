@@ -4,15 +4,25 @@ Script generators for Crystal DB multi-language support.
 
 # Script execution order
 
-1. Add language id - Crystal_transfer_id_tables.sql; Crystal_en_transfer_id_tables.sql
-2. Delete constrains - delete_constraints_Crystal.sql; delete_constraints_Crystal_en.sql
+## Preparations
+1. Disable triggers, create PK for DensTabl: prepare.sql
+2. Drop all unique indexes: delete_indexes_Crystal.sql; delete_indexes_Crystal_en.sql
+
+## Localization
+1. Create Language table: language_table_Crystal.sql
+2. Add language id - Crystal_transfer_id_tables.sql; Crystal_en_transfer_id_tables.sql
 3. Upload tables with id pk from en db to ru db - upload_tables.sql
 4. Apply localization script - Crystal-translate.sql; Crystal_en-translate.sql
 5. Upload rest of language tables from en db to ru db - Crystal_en-to-Crystal.sql
-6. Delete duplicates and update FK from Invariant tables - delete_duplicates.sql;
-7. Delete duplicates from Language tables - language_duplicates.sql
-8. Add unique indexes - unique.sql
-9. Add new url-columns - url.sql
+
+## Delete duplicates
+1. Delete duplicates and update FK from Invariant tables - delete_duplicates.sql;
+2. Delete duplicates from Language tables - language_duplicates.sql
+3. Add unique indexes - unique.sql
+
+## Compatibility and add new data
+1. Create compatibility views: compatibility.sql
+2. Add new url-columns - url.sql
 
 # References
 

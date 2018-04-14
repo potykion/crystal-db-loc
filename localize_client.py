@@ -6,22 +6,6 @@ from crystal.tables.tables import fetch_table_names, filter_system_tables, creat
 
 DATABASE = os.getenv('DATABASE', 'Crystal')
 
-COMMON_STUFF = '''-- Создаем таблицу для возможных языков
-CREATE TABLE dbo.Languages (
-    ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    Name VARCHAR(2)
-);
--- Создаем языки
-INSERT INTO dbo.Languages 
-(Name)
-VALUES
-('ru'),  ('en');
-GO
--- Отключаем триггеры        
-sp_msforeachtable 'ALTER TABLE ? DISABLE TRIGGER all'
-GO
-'''
-
 IS_EN_DB = DATABASE == 'Crystal_en'
 
 if __name__ == '__main__':
@@ -33,10 +17,6 @@ if __name__ == '__main__':
 
     with open(f'scripts/{DATABASE}-translate.sql', encoding='utf-8', mode='w') as f:
         print(F'use {DATABASE};\nGO\n', file=f)
-
-        if not IS_EN_DB:
-            print(COMMON_STUFF, file=f)
-            print(create_pk('DensTabl', 'ID'), file=f)
 
         for table in tables:
             type_ = identify_table_type(table)

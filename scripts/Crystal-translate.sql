@@ -1,20 +1,5 @@
 use Crystal;
 
--- Создаем таблицу для возможных языков
-CREATE TABLE dbo.Languages (
-    ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    Name VARCHAR(2)
-);
--- Создаем языки
-INSERT INTO dbo.Languages 
-(Name)
-VALUES
-('ru'),  ('en');
-GO
--- Отключаем триггеры        
-sp_msforeachtable 'ALTER TABLE ? DISABLE TRIGGER all'
-GO
-
 ---Создаем PK для DensTabl
 ALTER TABLE dbo.DensTabl ADD PRIMARY KEY (ID);
 GO
