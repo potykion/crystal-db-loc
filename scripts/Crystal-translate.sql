@@ -1,8 +1,5 @@
 use Crystal;
 
----Создаем PK для DensTabl
-ALTER TABLE dbo.DensTabl ADD PRIMARY KEY (ID);
-GO
 
 --- Таблица - DielDiss
 -- Удаляем LanguageID ограничение

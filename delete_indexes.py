@@ -14,7 +14,7 @@ def list_indexes():
 
 
 def is_table_index(index, tables):
-    return any(index['name'].endswith(table) for table in tables)
+    return any(table in index['name'] for table in tables)
 
 
 if __name__ == '__main__':
@@ -29,6 +29,17 @@ if __name__ == '__main__':
 
     with open(F'scripts/delete_indexes_{DATABASE}.sql', 'w') as f:
         print(f'use {DATABASE}\nGO', file=f)
+
+        if DATABASE == 'Crystal':
+            print('''ALTER TABLE dbo.Properties DROP CONSTRAINT DF_Properties_TableName;
+GO
+ALTER TABLE dbo.HeadTabl DROP CONSTRAINT DF_HeadTabl_Expert;
+GO
+ALTER TABLE dbo.HeadTabl DROP CONSTRAINT DF_HeadTabl_Help;
+GO
+ALTER TABLE dbo.HeadTabl DROP CONSTRAINT DF_HeadTabl_System;
+GO''', file=f)
+
         for index in indexes:
             *_, table = index['name'].split('_')
             index_name = index['name']

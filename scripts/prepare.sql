@@ -1,4 +1,5 @@
 use Crystal;
+GO
 
 -- Отключаем триггеры
 sp_msforeachtable 'ALTER TABLE ? DISABLE TRIGGER all'

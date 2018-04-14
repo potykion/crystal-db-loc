@@ -1,5 +1,13 @@
 use Crystal
 GO
+ALTER TABLE dbo.Properties DROP CONSTRAINT DF_Properties_TableName;
+GO
+ALTER TABLE dbo.HeadTabl DROP CONSTRAINT DF_HeadTabl_Expert;
+GO
+ALTER TABLE dbo.HeadTabl DROP CONSTRAINT DF_HeadTabl_Help;
+GO
+ALTER TABLE dbo.HeadTabl DROP CONSTRAINT DF_HeadTabl_System;
+GO
 DROP INDEX IX_ElemTabl ON ElemTabl;
 GO
 ALTER TABLE dbo.AcOpTabl DROP CONSTRAINT U_AcOpTabl;

@@ -1,3 +1,5 @@
+use Crystal;
+go
 -- Создаем таблицу для возможных языков
 CREATE TABLE dbo.Languages (
     ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
