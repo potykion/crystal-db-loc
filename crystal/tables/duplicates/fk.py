@@ -1,12 +1,14 @@
+from typing import Iterable, Tuple
+
 from crystal.tables.columns import get_primary_key, fetch_table_columns, filter_computed_columns, \
     drop_related_computed_columns
 from crystal.tables.tables import filter_system_tables, fetch_table_names, list_related_tables
 
 
-def delete_duplicates(table):
+def delete_duplicates(table, fk_tables=None):
     return '\nGO\n\n'.join([
         create_unique_id_mapping(table),
-        *update_fk_tables(table),
+        *update_fk_tables(table, fk_tables),
         _delete_duplicates(table),
         delete_unique_id_mapping(table),
         ''
@@ -37,10 +39,10 @@ INNER JOIN
 {join_columns_str};'''
 
 
-def update_fk_tables(table):
-    foreign_keys = list_related_tables(table)
+def update_fk_tables(table, fk_tables: Iterable[Tuple] = None):
+    fk_tables = fk_tables or list_related_tables(table)
 
-    for fk_table, fk_column in foreign_keys:
+    for fk_table, fk_column in fk_tables:
         yield f'''UPDATE {fk_table}
 SET {fk_table}.{fk_column} = NewID
 FROM {fk_table}
