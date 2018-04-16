@@ -1,0 +1,13 @@
+use Crystal;
+DELETE FROM Elastic1Invariant WHERE ID NOT IN (SELECT MIN(ID) FROM Elastic1Invariant GROUP BY HeadClue, SingCode, TemperEl, CondClu1, E1, ErrE, Bknumber);
+DELETE FROM MnOpTablInvariant WHERE ID NOT IN (SELECT MIN(ID) FROM MnOpTablInvariant GROUP BY HeadClue, SingCode, Lyambda, Nw, N2w, Znakcon, K, ErrKj, Bknumber);
+DELETE FROM ModfTablInvariant WHERE ID NOT IN (SELECT MIN(ID) FROM ModfTablInvariant GROUP BY HeadClue, SingCode, SuprTemp, SP2, ErrSupr, PointGrp, Z, Bknumber);
+DELETE FROM PzElTablInvariant WHERE ID NOT IN (SELECT MIN(ID) FROM PzElTablInvariant GROUP BY HeadClue, SingCode, FreqPzEl, ConstD, D, ErrD, Bknumber);
+DELETE FROM RefrcIndInvariant WHERE ID NOT IN (SELECT MIN(ID) FROM RefrcIndInvariant GROUP BY HeadClue, SingCode, Temper, WaveLeng, NazbIndx, ZnachInd, ErrIndex, Bknumber);
+DELETE FROM DielectrInvariant WHERE ID NOT IN (SELECT MIN(ID) FROM DielectrInvariant GROUP BY HeadClue, SingCode, FreqDiel, Temper_2, Constant, Diel, ErrY, Bknumber);
+DELETE FROM ElemTablInvariant WHERE ID NOT IN (SELECT MIN(ID) FROM ElemTablInvariant GROUP BY HeadClue, SingCode, Nazbparam, Znparam, Errparam, NazvAngl, ZnAngle, ErrAngl, Bknumber);
+DELETE FROM PropertiesInvariant WHERE NOMPROP NOT IN (SELECT MIN(NOMPROP) FROM PropertiesInvariant GROUP BY HTML, TableName);
+DELETE FROM HeatTablInvariant WHERE ID NOT IN (SELECT MIN(ID) FROM HeatTablInvariant GROUP BY HeadClue, Temperat, ZnC, C, ErrC, Bknumber);
+DELETE FROM AcOpTablInvariant WHERE ID NOT IN (SELECT MIN(ID) FROM AcOpTablInvariant GROUP BY HeadClue, SingCode, WaveLeng, Nzv, M1, M2, M3, Bknumber);
+DELETE FROM BibliogrInvariant WHERE Bknumber NOT IN (SELECT MIN(Bknumber) FROM BibliogrInvariant GROUP BY DOI);
+DELETE FROM ConstSelInvariant WHERE ID NOT IN (SELECT MIN(ID) FROM ConstSelInvariant GROUP BY HeadClue, SingCode, Equation, NazvSel, ZnachSel, Bknumber);

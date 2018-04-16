@@ -146,12 +146,6 @@ AS select HeadClue, SingCode, Nzv, Uzv, WaveType, WaveSpeed, Decrement, DecrFreq
 from dbo.DecrTablLanguage
 where LanguageId = 1
 GO
-CREATE VIEW dbo.Properties_Complex
-WITH SCHEMABINDING
-AS select NOMPROP, NAZVPROP
-from dbo.Properties_ComplexLanguage
-where LanguageId = 1
-GO
 CREATE VIEW dbo.Dielectr
 WITH SCHEMABINDING
 AS select ID, DielectrID, MethodY, Znak, __MethodY

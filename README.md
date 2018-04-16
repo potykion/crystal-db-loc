@@ -17,8 +17,10 @@ Script generators for Crystal DB multi-language support.
 
 ## Delete duplicates
 1. Delete duplicates and update FK from Invariant tables - delete_duplicates.sql;
-2. Delete duplicates from Language tables - language_duplicates.sql
-3. Add unique indexes - unique.sql
+2. Delete duplicates from HeadTabl and SingTabl - head_tabl.sql
+3. Delete duplicates from Language tables - language_duplicates.sql
+4. Delete duplicates from Invariant tables - invariant_duplicates.sql
+5. Add unique indexes - unique.sql
 
 ## Compatibility and add new data
 1. Create compatibility views: compatibility.sql
