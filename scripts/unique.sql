@@ -33,8 +33,6 @@ ALTER TABLE PropertiesLanguage ADD CONSTRAINT U_PropertiesLanguage UNIQUE (Prope
 ALTER TABLE HeatTablLanguage ADD CONSTRAINT U_HeatTablLanguage UNIQUE (HeatTablID, LanguageID, __MethodC)
 ALTER TABLE DensTablLanguage ADD CONSTRAINT U_DensTablLanguage UNIQUE (HeadClue, SingCode, Density, ErrDens, Bknumber, __MethodD, LanguageID)
 ALTER TABLE AcOpTablLanguage ADD CONSTRAINT U_AcOpTablLanguage UNIQUE (AcOpTablID, LanguageID, E, Nsv, Uzv)
-ALTER TABLE BibliogrLanguage ADD CONSTRAINT U_BibliogrLanguage UNIQUE (BibliogrID, LanguageID, Authors, Source, Title)
 ALTER TABLE AcOpTablInvariant ADD CONSTRAINT U_AcOpTablInvariant UNIQUE (HeadClue, SingCode, WaveLeng, Nzv, M1, M2, M3, Bknumber)
 ALTER TABLE ConstSelLanguage ADD CONSTRAINT U_ConstSelLanguage UNIQUE (ConstSelID, LanguageID, Measure)
-ALTER TABLE BibliogrInvariant ADD CONSTRAINT U_BibliogrInvariant UNIQUE (DOI)
 ALTER TABLE ConstSelInvariant ADD CONSTRAINT U_ConstSelInvariant UNIQUE (HeadClue, SingCode, Equation, NazvSel, ZnachSel, Bknumber)

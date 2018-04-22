@@ -381,3 +381,90 @@ drop table ConstSelInvariantUniqueIdMapping;
 GO
 
 
+use Crystal;
+DELETE FROM DielDissLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM DielDissLanguage GROUP BY HeadClue, SingCode, FreqDiss, Temper_3, TangName, TangentD, ErrDiss, Bknumber, __MethodY, LanguageID);
+DELETE FROM ElOpTablLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM ElOpTablLanguage GROUP BY HeadClue, SingCode, WvLeng, ZnN1, R, ErrR, Bknumber, __MethodR, LanguageID);
+DELETE FROM EsOpTablLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM EsOpTablLanguage GROUP BY HeadClue, SingCode, LengWave, ZnP, P, ErrP, Bknumber, __MethodP, LanguageID);
+DELETE FROM ElemTablNewLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM ElemTablNewLanguage GROUP BY HeadClue, SingCode, A, AErr, B, BErr, C, CErr, Alpha, AlphaErr, Beta, BetaErr, Gamma, GammaErr, Bknumber, __MethodP, LanguageID);
+DELETE FROM MechTablLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM MechTablLanguage GROUP BY HeadClue, SingCode, Bknumber, FreqCons, Temper, ZnK, K, ErrK, __MethodK, LanguageID);
+DELETE FROM NlOpTablLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM NlOpTablLanguage GROUP BY HeadClue, SingCode, Lyambda, ZnR, Rij, ErrRij, Bknumber, __MethodR, LanguageID);
+DELETE FROM LastModifiedLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM LastModifiedLanguage GROUP BY Text, LastModified, LanguageID);
+DELETE FROM GrafTablLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM GrafTablLanguage GROUP BY HeadClue, NompClue, NameGraf, Signatur, LanguageID);
+DELETE FROM PlavTablLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM PlavTablLanguage GROUP BY HeadClue, PlavType, PlavTemp, ErrPlav, Bknumber, LanguageID);
+DELETE FROM Elastic1Language WHERE ID NOT IN (SELECT MIN(ID) FROM Elastic1Language GROUP BY Elastic1ID, LanguageID, ZnE, __MethodE);
+DELETE FROM MnOpTablLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM MnOpTablLanguage GROUP BY MnOpTablID, LanguageID, __MethodK);
+DELETE FROM CuryTablLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM CuryTablLanguage GROUP BY HeadClue, CuryTemp, ErrCury, Oboztran, Bknumber, LanguageID);
+DELETE FROM ModfTablLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM ModfTablLanguage GROUP BY ModfTablID, LanguageID, SpaceGrp);
+DELETE FROM HardTablLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM HardTablLanguage GROUP BY HeadClue, SingCode, Hard1, Hard2, ErrHard, Mohs, ErrMohs, Bknumber, __MethodH, LanguageID);
+DELETE FROM SuspTablLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM SuspTablLanguage GROUP BY HeadClue, Temper, SuspName, Suspense, ErrSusp, Bknumber, __MethodS, LanguageID);
+DELETE FROM PzElTablLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM PzElTablLanguage GROUP BY PzElTablID, LanguageID, __MethodPz);
+DELETE FROM RefrcIndLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM RefrcIndLanguage GROUP BY RefrcIndID, LanguageID, __MethodIn);
+DELETE FROM DecrTablLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM DecrTablLanguage GROUP BY HeadClue, SingCode, Nzv, Uzv, WaveType, WaveSpeed, Decrement, DecrFreq, Bknumber, LanguageID);
+DELETE FROM DielectrLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM DielectrLanguage GROUP BY DielectrID, LanguageID, Znak, __MethodY);
+DELETE FROM HeatExpnLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM HeatExpnLanguage GROUP BY HeadClue, SingCode, DataType, Temper_1, Temper_2, Znak1, S11, ErrHExp, Bknumber, __MethodEx, LanguageID);
+DELETE FROM ElemTablLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM ElemTablLanguage GROUP BY ElemTablID, LanguageID, __MethodP);
+DELETE FROM PropertiesLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM PropertiesLanguage GROUP BY PropertiesID, LanguageID, NAZVPROP);
+DELETE FROM HeatTablLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM HeatTablLanguage GROUP BY HeatTablID, LanguageID, __MethodC);
+DELETE FROM DensTablLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM DensTablLanguage GROUP BY HeadClue, SingCode, Density, ErrDens, Bknumber, __MethodD, LanguageID);
+DELETE FROM AcOpTablLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM AcOpTablLanguage GROUP BY AcOpTablID, LanguageID, E, Nsv, Uzv);
+DELETE FROM BibliogrLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM BibliogrLanguage GROUP BY BibliogrID, LanguageID, Authors, Source, Title);
+DELETE FROM ConstSelLanguage WHERE ID NOT IN (SELECT MIN(ID) FROM ConstSelLanguage GROUP BY ConstSelID, LanguageID, Measure);
+
+go
+
+use Crystal;
+DELETE FROM Elastic1Invariant WHERE ID NOT IN (SELECT MIN(ID) FROM Elastic1Invariant GROUP BY HeadClue, SingCode, TemperEl, CondClu1, E1, ErrE, Bknumber);
+DELETE FROM MnOpTablInvariant WHERE ID NOT IN (SELECT MIN(ID) FROM MnOpTablInvariant GROUP BY HeadClue, SingCode, Lyambda, Nw, N2w, Znakcon, K, ErrKj, Bknumber);
+DELETE FROM ModfTablInvariant WHERE ID NOT IN (SELECT MIN(ID) FROM ModfTablInvariant GROUP BY HeadClue, SingCode, SuprTemp, SP2, ErrSupr, PointGrp, Z, Bknumber);
+DELETE FROM PzElTablInvariant WHERE ID NOT IN (SELECT MIN(ID) FROM PzElTablInvariant GROUP BY HeadClue, SingCode, FreqPzEl, ConstD, D, ErrD, Bknumber);
+DELETE FROM RefrcIndInvariant WHERE ID NOT IN (SELECT MIN(ID) FROM RefrcIndInvariant GROUP BY HeadClue, SingCode, Temper, WaveLeng, NazbIndx, ZnachInd, ErrIndex, Bknumber);
+DELETE FROM DielectrInvariant WHERE ID NOT IN (SELECT MIN(ID) FROM DielectrInvariant GROUP BY HeadClue, SingCode, FreqDiel, Temper_2, Constant, Diel, ErrY, Bknumber);
+DELETE FROM ElemTablInvariant WHERE ID NOT IN (SELECT MIN(ID) FROM ElemTablInvariant GROUP BY HeadClue, SingCode, Nazbparam, Znparam, Errparam, NazvAngl, ZnAngle, ErrAngl, Bknumber);
+DELETE FROM PropertiesInvariant WHERE NOMPROP NOT IN (SELECT MIN(NOMPROP) FROM PropertiesInvariant GROUP BY HTML, TableName);
+DELETE FROM HeatTablInvariant WHERE ID NOT IN (SELECT MIN(ID) FROM HeatTablInvariant GROUP BY HeadClue, Temperat, ZnC, C, ErrC, Bknumber);
+DELETE FROM AcOpTablInvariant WHERE ID NOT IN (SELECT MIN(ID) FROM AcOpTablInvariant GROUP BY HeadClue, SingCode, WaveLeng, Nzv, M1, M2, M3, Bknumber);
+DELETE FROM ConstSelInvariant WHERE ID NOT IN (SELECT MIN(ID) FROM ConstSelInvariant GROUP BY HeadClue, SingCode, Equation, NazvSel, ZnachSel, Bknumber);
+
+go
+
+use Crystal;
+ALTER TABLE DielDissLanguage ADD CONSTRAINT U_DielDissLanguage UNIQUE (HeadClue, SingCode, FreqDiss, Temper_3, TangName, TangentD, ErrDiss, Bknumber, __MethodY, LanguageID)
+ALTER TABLE Elastic1Invariant ADD CONSTRAINT U_Elastic1Invariant UNIQUE (HeadClue, SingCode, TemperEl, CondClu1, E1, ErrE, Bknumber)
+ALTER TABLE ElOpTablLanguage ADD CONSTRAINT U_ElOpTablLanguage UNIQUE (HeadClue, SingCode, WvLeng, ZnN1, R, ErrR, Bknumber, __MethodR, LanguageID)
+ALTER TABLE EsOpTablLanguage ADD CONSTRAINT U_EsOpTablLanguage UNIQUE (HeadClue, SingCode, LengWave, ZnP, P, ErrP, Bknumber, __MethodP, LanguageID)
+ALTER TABLE ElemTablNewLanguage ADD CONSTRAINT U_ElemTablNewLanguage UNIQUE (HeadClue, SingCode, A, AErr, B, BErr, C, CErr, Alpha, AlphaErr, Beta, BetaErr, Gamma, GammaErr, Bknumber, __MethodP, LanguageID)
+ALTER TABLE MechTablLanguage ADD CONSTRAINT U_MechTablLanguage UNIQUE (HeadClue, SingCode, Bknumber, FreqCons, Temper, ZnK, K, ErrK, __MethodK, LanguageID)
+ALTER TABLE MnOpTablInvariant ADD CONSTRAINT U_MnOpTablInvariant UNIQUE (HeadClue, SingCode, Lyambda, Nw, N2w, Znakcon, K, ErrKj, Bknumber)
+ALTER TABLE ModfTablInvariant ADD CONSTRAINT U_ModfTablInvariant UNIQUE (HeadClue, SingCode, SuprTemp, SP2, ErrSupr, PointGrp, Z, Bknumber)
+ALTER TABLE NlOpTablLanguage ADD CONSTRAINT U_NlOpTablLanguage UNIQUE (HeadClue, SingCode, Lyambda, ZnR, Rij, ErrRij, Bknumber, __MethodR, LanguageID)
+ALTER TABLE PzElTablInvariant ADD CONSTRAINT U_PzElTablInvariant UNIQUE (HeadClue, SingCode, FreqPzEl, ConstD, D, ErrD, Bknumber)
+ALTER TABLE RefrcIndInvariant ADD CONSTRAINT U_RefrcIndInvariant UNIQUE (HeadClue, SingCode, Temper, WaveLeng, NazbIndx, ZnachInd, ErrIndex, Bknumber)
+ALTER TABLE LastModifiedLanguage ADD CONSTRAINT U_LastModifiedLanguage UNIQUE (Text, LastModified, LanguageID)
+ALTER TABLE DielectrInvariant ADD CONSTRAINT U_DielectrInvariant UNIQUE (HeadClue, SingCode, FreqDiel, Temper_2, Constant, Diel, ErrY, Bknumber)
+ALTER TABLE GrafTablLanguage ADD CONSTRAINT U_GrafTablLanguage UNIQUE (HeadClue, NompClue, NameGraf, Signatur, LanguageID)
+ALTER TABLE PlavTablLanguage ADD CONSTRAINT U_PlavTablLanguage UNIQUE (HeadClue, PlavType, PlavTemp, ErrPlav, Bknumber, LanguageID)
+ALTER TABLE Elastic1Language ADD CONSTRAINT U_Elastic1Language UNIQUE (Elastic1ID, LanguageID, ZnE, __MethodE)
+ALTER TABLE ElemTablInvariant ADD CONSTRAINT U_ElemTablInvariant UNIQUE (HeadClue, SingCode, Nazbparam, Znparam, Errparam, NazvAngl, ZnAngle, ErrAngl, Bknumber)
+ALTER TABLE MnOpTablLanguage ADD CONSTRAINT U_MnOpTablLanguage UNIQUE (MnOpTablID, LanguageID, __MethodK)
+ALTER TABLE CuryTablLanguage ADD CONSTRAINT U_CuryTablLanguage UNIQUE (HeadClue, CuryTemp, ErrCury, Oboztran, Bknumber, LanguageID)
+ALTER TABLE ModfTablLanguage ADD CONSTRAINT U_ModfTablLanguage UNIQUE (ModfTablID, LanguageID, SpaceGrp)
+ALTER TABLE HardTablLanguage ADD CONSTRAINT U_HardTablLanguage UNIQUE (HeadClue, SingCode, Hard1, Hard2, ErrHard, Mohs, ErrMohs, Bknumber, __MethodH, LanguageID)
+ALTER TABLE SuspTablLanguage ADD CONSTRAINT U_SuspTablLanguage UNIQUE (HeadClue, Temper, SuspName, Suspense, ErrSusp, Bknumber, __MethodS, LanguageID)
+ALTER TABLE PzElTablLanguage ADD CONSTRAINT U_PzElTablLanguage UNIQUE (PzElTablID, LanguageID, __MethodPz)
+ALTER TABLE RefrcIndLanguage ADD CONSTRAINT U_RefrcIndLanguage UNIQUE (RefrcIndID, LanguageID, __MethodIn)
+ALTER TABLE DecrTablLanguage ADD CONSTRAINT U_DecrTablLanguage UNIQUE (HeadClue, SingCode, Nzv, Uzv, WaveType, WaveSpeed, Decrement, DecrFreq, Bknumber, LanguageID)
+ALTER TABLE PropertiesInvariant ADD CONSTRAINT U_PropertiesInvariant UNIQUE (HTML, TableName)
+ALTER TABLE DielectrLanguage ADD CONSTRAINT U_DielectrLanguage UNIQUE (DielectrID, LanguageID, Znak, __MethodY)
+ALTER TABLE HeatExpnLanguage ADD CONSTRAINT U_HeatExpnLanguage UNIQUE (HeadClue, SingCode, DataType, Temper_1, Temper_2, Znak1, S11, ErrHExp, Bknumber, __MethodEx, LanguageID)
+ALTER TABLE ElemTablLanguage ADD CONSTRAINT U_ElemTablLanguage UNIQUE (ElemTablID, LanguageID, __MethodP)
+ALTER TABLE HeatTablInvariant ADD CONSTRAINT U_HeatTablInvariant UNIQUE (HeadClue, Temperat, ZnC, C, ErrC, Bknumber)
+ALTER TABLE PropertiesLanguage ADD CONSTRAINT U_PropertiesLanguage UNIQUE (PropertiesID, LanguageID, NAZVPROP)
+ALTER TABLE HeatTablLanguage ADD CONSTRAINT U_HeatTablLanguage UNIQUE (HeatTablID, LanguageID, __MethodC)
+ALTER TABLE DensTablLanguage ADD CONSTRAINT U_DensTablLanguage UNIQUE (HeadClue, SingCode, Density, ErrDens, Bknumber, __MethodD, LanguageID)
+ALTER TABLE AcOpTablLanguage ADD CONSTRAINT U_AcOpTablLanguage UNIQUE (AcOpTablID, LanguageID, E, Nsv, Uzv)
+ALTER TABLE AcOpTablInvariant ADD CONSTRAINT U_AcOpTablInvariant UNIQUE (HeadClue, SingCode, WaveLeng, Nzv, M1, M2, M3, Bknumber)
+ALTER TABLE ConstSelLanguage ADD CONSTRAINT U_ConstSelLanguage UNIQUE (ConstSelID, LanguageID, Measure)
+ALTER TABLE ConstSelInvariant ADD CONSTRAINT U_ConstSelInvariant UNIQUE (HeadClue, SingCode, Equation, NazvSel, ZnachSel, Bknumber)
+
+go
+

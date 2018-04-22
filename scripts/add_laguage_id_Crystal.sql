@@ -28,3 +28,4 @@ ALTER TABLE dbo.RefrTabl ADD LanguageID int NOT NULL CONSTRAINT DF_RefrTabl_Lang
 ALTER TABLE dbo.HeadTabl ADD LanguageID int NOT NULL CONSTRAINT DF_HeadTabl_LanguageID DEFAULT(1);
 ALTER TABLE dbo.ElemTablNew ADD LanguageID int NOT NULL CONSTRAINT DF_ElemTablNew_LanguageID DEFAULT(1);
 ALTER TABLE dbo.HardTabl ADD LanguageID int NOT NULL CONSTRAINT DF_HardTabl_LanguageID DEFAULT(1);
+go

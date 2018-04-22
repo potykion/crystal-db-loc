@@ -65,8 +65,8 @@ select HeadClue, SingCode = (case SingCode
 from Crystal_en.dbo.DensTablLanguage
 
 insert into Crystal.dbo.HeadTablLanguage 
-(HeadTablID, LanguageID, Expert, System)
-select HeadTablID, LanguageID, Expert, System
+(HeadTablID, LanguageID, Expert)
+select HeadTablID, LanguageID, Expert
 from Crystal_en.dbo.HeadTablLanguage
 
 insert into Crystal.dbo.BibliogrLanguage 

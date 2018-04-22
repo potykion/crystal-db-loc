@@ -1,6 +1,6 @@
 use Crystal;
 
-alter table dbo.HeadTablLanguage
+alter table dbo.HeadTablInvariant
 add [SystemUrl] as (replace(replace(System, '<sub>', ''),'</sub>', ''));
 go
 

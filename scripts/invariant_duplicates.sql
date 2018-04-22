@@ -9,5 +9,4 @@ DELETE FROM ElemTablInvariant WHERE ID NOT IN (SELECT MIN(ID) FROM ElemTablInvar
 DELETE FROM PropertiesInvariant WHERE NOMPROP NOT IN (SELECT MIN(NOMPROP) FROM PropertiesInvariant GROUP BY HTML, TableName);
 DELETE FROM HeatTablInvariant WHERE ID NOT IN (SELECT MIN(ID) FROM HeatTablInvariant GROUP BY HeadClue, Temperat, ZnC, C, ErrC, Bknumber);
 DELETE FROM AcOpTablInvariant WHERE ID NOT IN (SELECT MIN(ID) FROM AcOpTablInvariant GROUP BY HeadClue, SingCode, WaveLeng, Nzv, M1, M2, M3, Bknumber);
-DELETE FROM BibliogrInvariant WHERE Bknumber NOT IN (SELECT MIN(Bknumber) FROM BibliogrInvariant GROUP BY DOI);
 DELETE FROM ConstSelInvariant WHERE ID NOT IN (SELECT MIN(ID) FROM ConstSelInvariant GROUP BY HeadClue, SingCode, Equation, NazvSel, ZnachSel, Bknumber);
