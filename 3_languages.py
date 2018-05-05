@@ -1,6 +1,6 @@
 import json
 
-from utils import DATABASE
+from utils.db import DATABASE
 
 if __name__ == '__main__':
     with open('data/1_tables_with_types.json') as f:

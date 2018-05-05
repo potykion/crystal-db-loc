@@ -1,0 +1,105 @@
+{
+  "Bibliogr": [
+    "Bknumber"
+  ],
+  "EquationTabl": [
+    "EquationID"
+  ],
+  "HeadTabl": [
+    "HeadClue"
+  ],
+  "SingTabl": [
+    "HeadClue",
+    "SingType"
+  ],
+  "AcOpTabl": [
+    "ID"
+  ],
+  "ConstSel": [
+    "ID"
+  ],
+  "CuryTabl": [
+    "ID"
+  ],
+  "DecrTabl": [
+    "ID"
+  ],
+  "DensTabl": [
+    "ID"
+  ],
+  "DielDiss": [
+    "ID"
+  ],
+  "Dielectr": [
+    "ID"
+  ],
+  "Elastic1": [
+    "ID"
+  ],
+  "ElemTabl": [
+    "ID"
+  ],
+  "ElemTablNew": [
+    "ID"
+  ],
+  "ElOpTabl": [
+    "ID"
+  ],
+  "EsOpTabl": [
+    "ID"
+  ],
+  "GrafTabl": [
+    "ID"
+  ],
+  "HardTabl": [
+    "ID"
+  ],
+  "HeatExpn": [
+    "ID"
+  ],
+  "HeatTabl": [
+    "ID"
+  ],
+  "LastModified": [
+    "ID"
+  ],
+  "LitrTabl": [
+    "ID"
+  ],
+  "MechTabl": [
+    "ID"
+  ],
+  "MnOpTabl": [
+    "ID"
+  ],
+  "ModfTabl": [
+    "ID"
+  ],
+  "NlOpTabl": [
+    "ID"
+  ],
+  "PlavTabl": [
+    "ID"
+  ],
+  "PzElTabl": [
+    "ID"
+  ],
+  "RefrcInd": [
+    "ID"
+  ],
+  "RefrTabl": [
+    "ID"
+  ],
+  "SistTabl": [
+    "ID"
+  ],
+  "SuspTabl": [
+    "ID"
+  ],
+  "Wavepure": [
+    "ID"
+  ],
+  "Properties": [
+    "NOMPROP"
+  ]
+}

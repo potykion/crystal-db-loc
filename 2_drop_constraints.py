@@ -1,6 +1,6 @@
 import json
 
-from utils import db, DATABASE
+from utils.db import db, DATABASE
 
 
 def is_table_index(index, tables):

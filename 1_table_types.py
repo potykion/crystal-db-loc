@@ -5,7 +5,8 @@ from typing import Iterable
 
 from records import Record
 
-from utils import db
+from utils.db import db
+from utils.table import find_tables_pks
 
 
 def find_tables_fks(tables):
@@ -20,28 +21,6 @@ def find_tables_fks(tables):
             table_fks[fk_table].append(fk_column)
 
     return table_fks
-
-
-def find_tables_pks(tables):
-    return dict(zip(
-        tables, map(find_table_pks, tables)
-    ))
-
-
-def find_table_pks(table):
-    return [
-        pk['COLUMN_NAME']
-        for pk in db.query(f'sp_pkeys {table}').all()
-    ]
-
-
-def find_tables_without_pks(tables, table_pks):
-    return [
-        table
-        for table in tables
-        if not table_pks[table] or
-           'HeadClue' in table_pks[table] and table not in ['SingTabl', 'HeadTabl']
-    ]
 
 
 def find_tables_types(tables, table_pks, table_fks):
@@ -123,9 +102,8 @@ if __name__ == '__main__':
     table_fks = find_tables_fks(tables)
     table_pks = find_tables_pks(tables)
 
-    tables_without_pk = find_tables_without_pks(tables, table_pks)
-    with open('data/1_tables_without_pks.json', 'w') as f:
-        json.dump(tables_without_pk, f)
+    with open('data/1_tables_pks.json', 'w') as f:
+        json.dump(table_pks, f)
 
     tables_with_type = find_tables_types(tables, table_pks, table_fks)
 

@@ -1,10 +1,11 @@
 import json
 from typing import Iterator
 
-from utils import db
+from utils.db import db
 
 REDUNDANT_TABLES = [
-    'Users'
+    'Users',
+    'Properties_Complex'
 ]
 
 if __name__ == '__main__':
