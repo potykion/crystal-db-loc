@@ -1,3 +1,5 @@
+use Crystal;
+GO
 ---Создаем PK для DensTabl
 ALTER TABLE dbo.DensTabl ADD PRIMARY KEY (ID);
 GO

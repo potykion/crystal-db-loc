@@ -1,7 +1,8 @@
 import json
 
-from utils.db import DATABASE, db
-from utils.table import find_tables_pks, get_columns
+from common.db import db
+from common.config import DATABASE
+from common.table import find_tables_pks, get_columns
 
 
 def find_tables_without_pks(tables, table_pks):
@@ -44,6 +45,8 @@ if __name__ == '__main__':
 
     if DATABASE == 'Crystal_en':
         with open('sql/4_tables_without_pks [Crystal_en].sql', 'w', encoding='utf-8') as f:
+            print('''use Crystal_en;
+GO''', file=f)
             for table in tables_without_pk:
                 columns = get_columns(table)
                 columns_without_computed = drop_computed_columns(table, columns)

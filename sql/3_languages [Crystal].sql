@@ -1,3 +1,5 @@
+use Crystal;
+GO
 CREATE TABLE dbo.Languages (
     ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     Name VARCHAR(2)
@@ -37,4 +39,3 @@ ALTER TABLE dbo.RefrcInd ADD LanguageID int NOT NULL CONSTRAINT DF_RefrcInd_Lang
 ALTER TABLE dbo.SuspTabl ADD LanguageID int NOT NULL CONSTRAINT DF_SuspTabl_LanguageID DEFAULT(1);
 ALTER TABLE dbo.Wavepure ADD LanguageID int NOT NULL CONSTRAINT DF_Wavepure_LanguageID DEFAULT(1);
 ALTER TABLE dbo.RefrTabl ADD LanguageID int NOT NULL CONSTRAINT DF_RefrTabl_LanguageID DEFAULT(1);
-ALTER TABLE dbo.SingTabl ADD LanguageID int NOT NULL CONSTRAINT DF_SingTabl_LanguageID DEFAULT(1);

@@ -1,12 +1,9 @@
 import json
 from collections import defaultdict
 from operator import itemgetter
-from typing import Iterable
 
-from records import Record
-
-from utils.db import db
-from utils.table import find_tables_pks, get_columns
+from common.db import db
+from common.table import find_tables_pks, get_columns, find_ru_columns
 
 
 def find_tables_fks(tables):
@@ -55,37 +52,6 @@ def identify_table_type(table, fks, pks):
         return 'HAS_RU_COLUMNS'
     else:
         return 'NO_RU_COLUMNS'
-
-
-def find_ru_columns(table):
-    rows = get_rows(table)
-    columns = set()
-
-    for row in rows:
-        row_dict = row.as_dict()
-
-        if len(columns) == len(row_dict):
-            break
-
-        for column, value in row_dict.items():
-            if column in columns:
-                continue
-
-            if is_ru(value):
-                columns.add(column)
-
-    return columns
-
-
-def get_rows(table) -> Iterable[Record]:
-    return db.query(f'SELECT * FROM {table}')
-
-
-ru_alphabet = 'йцукенгшщзхъфывапролджэячсмитьбюё'
-
-
-def is_ru(value):
-    return any(char_ in ru_alphabet for char_ in str(value))
 
 
 if __name__ == '__main__':

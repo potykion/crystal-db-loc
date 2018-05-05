@@ -1,3 +1,5 @@
+use Crystal;
+GO
 sp_msforeachtable 'ALTER TABLE ? DISABLE TRIGGER all'
 GO
 ALTER TABLE dbo.Properties DROP CONSTRAINT DF_Properties_TableName;

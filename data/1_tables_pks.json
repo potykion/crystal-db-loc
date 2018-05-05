@@ -1,4 +1,5 @@
 {
+  "DensTabl": [],
   "Bibliogr": [
     "Bknumber"
   ],
@@ -6,6 +7,9 @@
     "EquationID"
   ],
   "HeadTabl": [
+    "HeadClue"
+  ],
+  "RefrTabl": [
     "HeadClue"
   ],
   "SingTabl": [
@@ -22,9 +26,6 @@
     "ID"
   ],
   "DecrTabl": [
-    "ID"
-  ],
-  "DensTabl": [
     "ID"
   ],
   "DielDiss": [
@@ -85,9 +86,6 @@
     "ID"
   ],
   "RefrcInd": [
-    "ID"
-  ],
-  "RefrTabl": [
     "ID"
   ],
   "SistTabl": [

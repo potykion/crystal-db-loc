@@ -1,9 +1,8 @@
-import os
 from urllib.parse import quote_plus
 
 from records import Database
 
-DATABASE = os.getenv('DATABASE', 'Crystal')
+from common.config import DATABASE
 
 
 def _build_database_url(database=DATABASE, server='.\SQLEXPRESS', driver='SQL Server', ):

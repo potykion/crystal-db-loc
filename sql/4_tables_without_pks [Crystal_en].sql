@@ -1,3 +1,5 @@
+use Crystal_en;
+GO
 insert into Crystal.dbo.AcOpTabl
 (HeadClue, SingCode, WaveLeng, Nzv, Uzv, Nsv, E, M1, M2, M3, Bknumber, LanguageID)
 select 

@@ -27,10 +27,10 @@
   "PzElTabl": "HAS_RU_COLUMNS",
   "RefrcInd": "HAS_RU_COLUMNS",
   "SuspTabl": "HAS_RU_COLUMNS",
-  "Wavepure": "HAS_RU_COLUMNS",
   "EquationTabl": "NO_RU_COLUMNS",
   "LitrTabl": "NO_RU_COLUMNS",
+  "SingTabl": "NO_RU_COLUMNS",
   "SistTabl": "NO_RU_COLUMNS",
-  "RefrTabl": "ONLY_RU_COLUMNS",
-  "SingTabl": "ONLY_RU_COLUMNS"
+  "Wavepure": "NO_RU_COLUMNS",
+  "RefrTabl": "ONLY_RU_COLUMNS"
 }

@@ -1,6 +1,7 @@
 import json
 
-from utils.db import db, DATABASE
+from common.db import db
+from common.config import DATABASE
 
 
 def is_table_index(index, tables):
@@ -31,7 +32,9 @@ if __name__ == '__main__':
     drop_indexes_str = '\nGO\n'.join(map(drop_index, table_indexes))
 
     with open(f'sql/2_drop_constraints [{DATABASE}].sql', 'w') as f:
-        print(f'''sp_msforeachtable 'ALTER TABLE ? DISABLE TRIGGER all'
+        print(f'''use {DATABASE};
+GO
+sp_msforeachtable 'ALTER TABLE ? DISABLE TRIGGER all'
 GO
 ALTER TABLE dbo.Properties DROP CONSTRAINT DF_Properties_TableName;
 GO

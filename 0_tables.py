@@ -1,7 +1,7 @@
 import json
 from typing import Iterator
 
-from utils.db import db
+from common.db import db
 
 REDUNDANT_TABLES = [
     'Users',
