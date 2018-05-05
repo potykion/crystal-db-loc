@@ -1,7 +1,7 @@
 import json
 
-from utils.db import DATABASE
-from utils.table import find_tables_pks
+from utils.db import DATABASE, db
+from utils.table import find_tables_pks, get_columns
 
 
 def find_tables_without_pks(tables, table_pks):
@@ -10,6 +10,20 @@ def find_tables_without_pks(tables, table_pks):
         for table in tables
         if not table_pks[table] or
            'HeadClue' in table_pks[table] and table not in ['SingTabl', 'HeadTabl']
+    ]
+
+
+def drop_computed_columns(table, columns):
+    columns_str = ','.join(f"'{column}'" for column in columns)
+    query = (
+        f"SELECT *, TYPE_NAME(system_type_id) as type_name FROM sys.columns "
+        f"WHERE name in ({columns_str}) AND object_id = OBJECT_ID('{table}') "
+        "AND is_computed = 0"
+    )
+    non_computed_columns = db.query(query)
+    return [
+        column['name']
+        for column in non_computed_columns
     ]
 
 
@@ -27,3 +41,29 @@ if __name__ == '__main__':
     tables_without_pk = find_tables_without_pks(tables, table_pks)
     with open(F'data/4_tables_without_pks [{DATABASE}].json', 'w') as f:
         json.dump(tables_without_pk, f)
+
+    if DATABASE == 'Crystal_en':
+        with open('sql/4_tables_without_pks [Crystal_en].sql', 'w', encoding='utf-8') as f:
+            for table in tables_without_pk:
+                columns = get_columns(table)
+                columns_without_computed = drop_computed_columns(table, columns)
+
+                columns_str = ', '.join(columns_without_computed)
+                columns_str_with_mapped_sing = columns_str.replace('SingCode', '''SingCode = (case SingCode 
+when 'c' then 'к'
+when 'h' then 'г'
+when 'm' then 'м'
+when 'r' then 'р'
+when 're' then 'рэ'
+when 't' then 'т'
+when 'tg' then 'тг'
+when 'tr' then 'тр'
+end)''')
+
+                query = f'''insert into Crystal.dbo.{table}
+({columns_str})
+select 
+{columns_str_with_mapped_sing}
+from Crystal_en.dbo.{table};
+'''
+                print(query, file=f)

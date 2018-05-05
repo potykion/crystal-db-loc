@@ -6,7 +6,7 @@ from typing import Iterable
 from records import Record
 
 from utils.db import db
-from utils.table import find_tables_pks
+from utils.table import find_tables_pks, get_columns
 
 
 def find_tables_fks(tables):
@@ -55,13 +55,6 @@ def identify_table_type(table, fks, pks):
         return 'HAS_RU_COLUMNS'
     else:
         return 'NO_RU_COLUMNS'
-
-
-def get_columns(table):
-    return [
-        column['COLUMN_NAME']
-        for column in db.query(f'sp_columns {table}')
-    ]
 
 
 def find_ru_columns(table):

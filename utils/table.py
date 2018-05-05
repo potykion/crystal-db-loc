@@ -19,3 +19,10 @@ def find_table_pks(table):
         pk['COLUMN_NAME']
         for pk in db.query(f'sp_pkeys {table}').all()
     ]
+
+
+def get_columns(table):
+    return [
+        column['COLUMN_NAME']
+        for column in db.query(f'sp_columns {table}')
+    ]
