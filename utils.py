@@ -1,9 +1,12 @@
+import os
 from urllib.parse import quote_plus
 
 from records import Database
 
+DATABASE = os.getenv('DATABASE', 'Crystal')
 
-def _build_database_url(database='Crystal', server='.\SQLEXPRESS', driver='SQL Server', ):
+
+def _build_database_url(database=DATABASE, server='.\SQLEXPRESS', driver='SQL Server', ):
     params = quote_plus(f'DRIVER={driver};SERVER={server};DATABASE={database};')
     database_url = f'mssql+pyodbc:///?odbc_connect={params}'
     return database_url
