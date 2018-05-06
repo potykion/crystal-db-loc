@@ -38,10 +38,13 @@ def stage_3():
     with set_eng_db(fake=True):
         subprocess.call('python 5_localize.py')
 
+
 def stage_4():
     subprocess.call('python 6_upload.py')
     subprocess.call('python 7_duplicates.py')
     subprocess.call('python 8_unique_indexes.py')
+    subprocess.call('python 9_views.py')
+
 
 if __name__ == '__main__':
     # stage_1()
