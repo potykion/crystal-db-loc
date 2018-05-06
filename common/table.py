@@ -61,6 +61,9 @@ def find_ru_columns(table):
     # not language-dependent columns
     columns -= {'SingType', 'SingCode'}
 
+    if table.startswith('HeadTabl'):
+        columns -= {'System'}
+
     return columns
 
 

@@ -28,6 +28,8 @@ if __name__ == '__main__':
            and not any(table.startswith(ignore_table) for ignore_table in IGNORE_TABLES)
     ]
 
+    # todo deal with U_ConstSelInvariant and U_GrafTablLanguage
+
     with open(F'sql/8_unique_indexes [{DATABASE}].sql', 'w', encoding='utf-8') as f:
         print(f'use {DATABASE};\ngo\n', file=f)
         for table in tables:

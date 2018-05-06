@@ -37,5 +37,4 @@ ALTER TABLE dbo.Properties ADD LanguageID int NOT NULL CONSTRAINT DF_Properties_
 ALTER TABLE dbo.PzElTabl ADD LanguageID int NOT NULL CONSTRAINT DF_PzElTabl_LanguageID DEFAULT(1);
 ALTER TABLE dbo.RefrcInd ADD LanguageID int NOT NULL CONSTRAINT DF_RefrcInd_LanguageID DEFAULT(1);
 ALTER TABLE dbo.SuspTabl ADD LanguageID int NOT NULL CONSTRAINT DF_SuspTabl_LanguageID DEFAULT(1);
-ALTER TABLE dbo.Wavepure ADD LanguageID int NOT NULL CONSTRAINT DF_Wavepure_LanguageID DEFAULT(1);
 ALTER TABLE dbo.RefrTabl ADD LanguageID int NOT NULL CONSTRAINT DF_RefrTabl_LanguageID DEFAULT(1);

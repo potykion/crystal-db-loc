@@ -16,9 +16,9 @@ ElemTablNewID, LanguageID, MethodP
 from Crystal_en.dbo.ElemTablNewLanguage
 ;
 insert into Crystal.dbo.HeadTablLanguage
-(HeadTablID, LanguageID, Expert, System)
+(HeadTablID, LanguageID, Expert)
 select 
-HeadTablID, LanguageID, Expert, System
+HeadTablID, LanguageID, Expert
 from Crystal_en.dbo.HeadTablLanguage
 ;
 insert into Crystal.dbo.PropertiesLanguage

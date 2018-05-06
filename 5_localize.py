@@ -1,3 +1,4 @@
+import os
 from operator import itemgetter
 
 from common.config import DATABASE, LANGUAGE
@@ -161,11 +162,12 @@ FROM {self.table}Invariant;'''
 if __name__ == '__main__':
     tables_with_types = from_json('data/1_tables_with_types.json')
 
-    database = DATABASE
-    tables_without_pk = []
-
-    # database = 'Crystal_en'
-    # tables_without_pk = from_json(f'data/4_tables_without_pks [{database}].json')
+    if 'FAKE' in os.environ:
+        database = 'Crystal_en'
+        tables_without_pk = from_json(f'data/4_tables_without_pks [{database}].json')
+    else:
+        database = DATABASE
+        tables_without_pk = []
 
     with open(f'sql/5_localize [{database}].sql', 'w', encoding='utf-8') as f:
         print(f'''use {database};

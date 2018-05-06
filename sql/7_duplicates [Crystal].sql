@@ -1,5 +1,5 @@
 use Crystal;
-go
+GO
 
 SELECT t2.ID as OldID, t1.MinID as NewID
 INTO AcOpTablInvariantUniqueIdMapping

@@ -527,8 +527,7 @@ CREATE TABLE dbo.HeadTablLanguage
     ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     HeadTablID INT NOT NULL,
     LanguageID INT NOT NULL DEFAULT 1,
-    Expert varchar(32),
-    System varchar(128)
+    Expert varchar(32)
 );
 GO
 --- Создаем FK для HeadTablLanguage
@@ -540,15 +539,15 @@ ADD CONSTRAINT FK_HeadTablLanguage_HeadTablInvariant FOREIGN KEY (HeadTablID)
 ;
 GO
 -- Вставляем столбцы
-INSERT INTO dbo.HeadTablLanguage (HeadTablID, Expert, System, LanguageID)
-SELECT HeadClue AS HeadTablId, Expert, System, LanguageID
+INSERT INTO dbo.HeadTablLanguage (HeadTablID, Expert, LanguageID)
+SELECT HeadClue AS HeadTablId, Expert, LanguageID
 FROM HeadTablInvariant;
 GO
 -- Удаляем LanguageID ограничение
 ALTER TABLE HeadTablInvariant DROP CONSTRAINT DF_HeadTabl_LanguageID
 GO
 -- Удаляем языкозависимые столбцы
-ALTER TABLE dbo.HeadTablInvariant DROP COLUMN Expert, System, LanguageID;
+ALTER TABLE dbo.HeadTablInvariant DROP COLUMN Expert, LanguageID;
 GO
 
 --- Таблица HeatExpn

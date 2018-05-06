@@ -5,7 +5,7 @@ from common.table import get_tables, find_tables_pks, find_table_pks, get_column
 
 IGNORE_TABLES = [
     'Bibliogr', 'EquationTabl',
-    'HeadTabl', 'RefrTabl'
+    'HeadTabl', 'RefrTabl',
     'SingTabl', 'Properties',
     'Languages'
 ]

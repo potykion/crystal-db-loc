@@ -306,21 +306,6 @@ select
 HeadClue, Temper, SuspName, Suspense, ErrSusp, MethodS, Bknumber, LanguageID
 from Crystal_en.dbo.SuspTabl;
 
-insert into Crystal.dbo.Wavepure
-(HeadClue, SingCode, Leftwave, Rightwave, Bknumber, LanguageID)
-select 
-HeadClue, SingCode = (case SingCode 
-when 'c' then 'к'
-when 'h' then 'г'
-when 'm' then 'м'
-when 'r' then 'р'
-when 're' then 'рэ'
-when 't' then 'т'
-when 'tg' then 'тг'
-when 'tr' then 'тр'
-end), Leftwave, Rightwave, Bknumber, LanguageID
-from Crystal_en.dbo.Wavepure;
-
 insert into Crystal.dbo.RefrTabl
 (HeadClue, Referat, LanguageID)
 select 
