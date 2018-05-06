@@ -171,6 +171,40 @@ GO
 ALTER TABLE dbo.DecrTablInvariant DROP COLUMN Nzv, Uzv, WaveType, LanguageID;
 GO
 
+--- Таблица DensTabl
+--- Переименовываем DensTabl
+sp_rename 'DensTabl', 'DensTablInvariant';
+GO
+--- Создаем таблицу DensTablLanguage
+CREATE TABLE dbo.DensTablLanguage
+(
+    ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    DensTablID INT NOT NULL,
+    LanguageID INT NOT NULL DEFAULT 1,
+    MethodD varchar(1999),
+    __MethodD as (left([MethodD],(50)))
+);
+GO
+--- Создаем FK для DensTablLanguage
+ALTER TABLE dbo.DensTablLanguage
+ADD CONSTRAINT FK_DensTablLanguage_DensTablInvariant FOREIGN KEY (DensTablID)
+    REFERENCES dbo.DensTablInvariant (ID)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+;
+GO
+-- Вставляем столбцы
+INSERT INTO dbo.DensTablLanguage (DensTablID, MethodD, LanguageID)
+SELECT ID AS DensTablId, MethodD, LanguageID
+FROM DensTablInvariant;
+GO
+-- Удаляем LanguageID ограничение
+ALTER TABLE DensTablInvariant DROP CONSTRAINT DF_DensTabl_LanguageID
+GO
+-- Удаляем языкозависимые столбцы
+ALTER TABLE dbo.DensTablInvariant DROP COLUMN __MethodD, MethodD, LanguageID;
+GO
+
 --- Таблица DielDiss
 --- Переименовываем DielDiss
 sp_rename 'DielDiss', 'DielDissInvariant';
@@ -923,5 +957,13 @@ ALTER TABLE SuspTablInvariant DROP CONSTRAINT DF_SuspTabl_LanguageID
 GO
 -- Удаляем языкозависимые столбцы
 ALTER TABLE dbo.SuspTablInvariant DROP COLUMN __MethodS, MethodS, SuspName, LanguageID;
+GO
+
+--- Таблица - RefrTabl
+-- Удаляем LanguageID ограничение
+ALTER TABLE RefrTabl DROP CONSTRAINT DF_RefrTabl_LanguageID
+GO
+--- Добавляем Language к названию
+sp_rename 'RefrTabl', 'RefrTablLanguage';
 GO
 

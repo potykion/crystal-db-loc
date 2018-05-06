@@ -3,7 +3,7 @@ from operator import itemgetter
 from common.config import DATABASE, LANGUAGE
 from common.db import db
 from common.file_utils import from_json
-from common.table import find_table_pks, find_ru_columns
+from common.table import find_table_pks, find_ru_columns, filter_computed_columns
 
 CHAR_TYPES = [
     'char', 'varchar', 'nchar', 'nvarchar',
@@ -22,19 +22,6 @@ def get_text_columns(table):
         column['COLUMN_NAME']
         for column in db.query(f'exec sp_columns {table}')
         if column['TYPE_NAME'] in TEXT_TYPES
-    ]
-
-
-def filter_computed_columns(table, columns):
-    columns_str = ','.join(f"'{column}'" for column in columns)
-    query = (
-        f"SELECT *, TYPE_NAME(system_type_id) as type_name FROM sys.columns "
-        f"WHERE name in ({columns_str}) AND object_id = OBJECT_ID('{table}') "
-        "AND is_computed = 1"
-    )
-    return [
-        column['name']
-        for column in db.query(query)
     ]
 
 
@@ -175,8 +162,10 @@ if __name__ == '__main__':
     tables_with_types = from_json('data/1_tables_with_types.json')
 
     database = DATABASE
+    tables_without_pk = []
+
     # database = 'Crystal_en'
-    tables_without_pk = from_json(f'data/4_tables_without_pks [{database}].json')
+    # tables_without_pk = from_json(f'data/4_tables_without_pks [{database}].json')
 
     with open(f'sql/5_localize [{database}].sql', 'w', encoding='utf-8') as f:
         print(f'''use {database};
