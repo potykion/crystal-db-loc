@@ -47,7 +47,11 @@ def stage_4():
 
 
 if __name__ == '__main__':
+    # 0 - 3
     # stage_1()
+    # 4
     # stage_2()
+    # 5
     # stage_3()
+    # 6 - 10
     stage_4()

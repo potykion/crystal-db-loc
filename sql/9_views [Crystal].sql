@@ -18,7 +18,7 @@ where LanguageID = 1
 go
 CREATE VIEW dbo.ConstSel
 WITH SCHEMABINDING
-AS select Measure, HeadClue, SingCode, Equation, NazvSel, ZnachSel, Bknumber, __Equation, ConstSelInvariant.ID
+AS select Measure, HeadClue, SingCode, Equation, NazvSel, ZnachSel, Bknumber, Equation, ConstSelInvariant.ID
 from dbo.ConstSelLanguage
 join dbo.ConstSelInvariant on
 ConstSelLanguage.ConstSelID = ConstSelInvariant.ID
@@ -106,7 +106,7 @@ where LanguageID = 1
 go
 CREATE VIEW dbo.GrafTabl
 WITH SCHEMABINDING
-AS select NameGraf, Signatur, __Signatur, HeadClue, NompClue, GrafTablInvariant.ID
+AS select NameGraf, Signatur, HeadClue, NompClue, GrafTablInvariant.ID
 from dbo.GrafTablLanguage
 join dbo.GrafTablInvariant on
 GrafTablLanguage.GrafTablID = GrafTablInvariant.ID
