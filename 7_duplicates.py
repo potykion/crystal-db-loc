@@ -1,7 +1,7 @@
 from common.config import DATABASE
 from common.db import db
 from common.file_utils import from_json
-from common.table import get_tables, find_tables_pks, find_table_pks, get_columns, filter_computed_columns
+from common.table import get_tables, find_tables_pks, find_table_pks, get_columns, drop_related_computed_columns
 
 IGNORE_TABLES = [
     'Bibliogr', 'EquationTabl',
@@ -43,13 +43,6 @@ FROM
 INNER JOIN
   {table} t2 ON
 {join_columns_str};'''
-
-
-def drop_related_computed_columns(columns, table):
-    computed_columns = filter_computed_columns(table, columns)
-    for column in computed_columns:
-        columns.remove(column.strip('_'))
-    return columns
 
 
 def update_fk_tables(table, fk_tables):

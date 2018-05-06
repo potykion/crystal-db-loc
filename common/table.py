@@ -109,3 +109,10 @@ def filter_computed_columns(table, columns):
         column['name']
         for column in db.query(query)
     ]
+
+
+def drop_related_computed_columns(columns, table):
+    computed_columns = filter_computed_columns(table, columns)
+    for column in computed_columns:
+        columns.remove(column.strip('_'))
+    return columns
