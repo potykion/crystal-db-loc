@@ -36,11 +36,6 @@ if __name__ == '__main__':
 
             print(create_unique_index(table), file=f)
 
-        print('''alter table dbo.ConstSelInvariant
-add [__Equation] as (left([Equation],(50)));
-go
-ALTER TABLE ConstSelInvariant ADD CONSTRAINT U_ConstSelInvariant UNIQUE (HeadClue, SingCode, __Equation, NazvSel, ZnachSel, Bknumber)
-go''', file=f)
         print('''alter table dbo.GrafTablLanguage
 add [__Signatur] as (left([Signatur],(50)));
 go
