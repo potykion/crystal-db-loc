@@ -28,9 +28,22 @@ if __name__ == '__main__':
            and not any(table.startswith(ignore_table) for ignore_table in IGNORE_TABLES)
     ]
 
-    # todo deal with U_ConstSelInvariant and U_GrafTablLanguage
-
     with open(F'sql/8_unique_indexes [{DATABASE}].sql', 'w', encoding='utf-8') as f:
         print(f'use {DATABASE};\ngo\n', file=f)
         for table in tables:
+            if table == 'GrafTablLanguage' or table == 'ConstSelInvariant':
+                continue
+
             print(create_unique_index(table), file=f)
+
+        print('''alter table dbo.ConstSelInvariant
+add [__Equation] as (left([Equation],(50)));
+go
+ALTER TABLE ConstSelInvariant ADD CONSTRAINT U_ConstSelInvariant UNIQUE (HeadClue, SingCode, __Equation, NazvSel, ZnachSel, Bknumber)
+go''', file=f)
+        print('''alter table dbo.GrafTablLanguage
+add [__Signatur] as (left([Signatur],(50)));
+go
+ALTER TABLE GrafTablLanguage ADD CONSTRAINT U_GrafTablLanguage UNIQUE (GrafTablID, LanguageID, NameGraf, __Signatur)
+go
+''', file=f)

@@ -3,7 +3,6 @@ go
 
 ALTER TABLE AcOpTablInvariant ADD CONSTRAINT U_AcOpTablInvariant UNIQUE (HeadClue, SingCode, WaveLeng, Nzv, M1, M2, M3, Bknumber)
 ALTER TABLE AcOpTablLanguage ADD CONSTRAINT U_AcOpTablLanguage UNIQUE (AcOpTablID, LanguageID, E, Nsv, Uzv)
-ALTER TABLE ConstSelInvariant ADD CONSTRAINT U_ConstSelInvariant UNIQUE (HeadClue, SingCode, Equation, NazvSel, ZnachSel, Bknumber)
 ALTER TABLE ConstSelLanguage ADD CONSTRAINT U_ConstSelLanguage UNIQUE (ConstSelID, LanguageID, Measure)
 ALTER TABLE CuryTablInvariant ADD CONSTRAINT U_CuryTablInvariant UNIQUE (HeadClue, CuryTemp, ErrCury, Bknumber)
 ALTER TABLE CuryTablLanguage ADD CONSTRAINT U_CuryTablLanguage UNIQUE (CuryTablID, LanguageID, Oboztran)
@@ -26,7 +25,6 @@ ALTER TABLE ElOpTablLanguage ADD CONSTRAINT U_ElOpTablLanguage UNIQUE (ElOpTablI
 ALTER TABLE EsOpTablInvariant ADD CONSTRAINT U_EsOpTablInvariant UNIQUE (HeadClue, SingCode, LengWave, P, ErrP, Bknumber)
 ALTER TABLE EsOpTablLanguage ADD CONSTRAINT U_EsOpTablLanguage UNIQUE (EsOpTablID, LanguageID, ZnP, __MethodP)
 ALTER TABLE GrafTablInvariant ADD CONSTRAINT U_GrafTablInvariant UNIQUE (HeadClue, NompClue)
-ALTER TABLE GrafTablLanguage ADD CONSTRAINT U_GrafTablLanguage UNIQUE (GrafTablID, LanguageID, NameGraf, Signatur)
 ALTER TABLE HardTablInvariant ADD CONSTRAINT U_HardTablInvariant UNIQUE (HeadClue, SingCode, Hard1, Hard2, ErrHard, Mohs, ErrMohs, Bknumber)
 ALTER TABLE HardTablLanguage ADD CONSTRAINT U_HardTablLanguage UNIQUE (HardTablID, LanguageID, __MethodH)
 ALTER TABLE HeadTablInvariant ADD CONSTRAINT U_HeadTablInvariant UNIQUE (System, Help, Class)
@@ -55,3 +53,14 @@ ALTER TABLE RefrcIndInvariant ADD CONSTRAINT U_RefrcIndInvariant UNIQUE (HeadClu
 ALTER TABLE RefrcIndLanguage ADD CONSTRAINT U_RefrcIndLanguage UNIQUE (RefrcIndID, LanguageID, __MethodIn)
 ALTER TABLE SuspTablInvariant ADD CONSTRAINT U_SuspTablInvariant UNIQUE (HeadClue, Temper, Suspense, ErrSusp, Bknumber)
 ALTER TABLE SuspTablLanguage ADD CONSTRAINT U_SuspTablLanguage UNIQUE (SuspTablID, LanguageID, SuspName, __MethodS)
+alter table dbo.ConstSelInvariant
+add [__Equation] as (left([Equation],(50)));
+go
+ALTER TABLE ConstSelInvariant ADD CONSTRAINT U_ConstSelInvariant UNIQUE (HeadClue, SingCode, __Equation, NazvSel, ZnachSel, Bknumber)
+go
+alter table dbo.GrafTablLanguage
+add [__Signatur] as (left([Signatur],(50)));
+go
+ALTER TABLE GrafTablLanguage ADD CONSTRAINT U_GrafTablLanguage UNIQUE (GrafTablID, LanguageID, NameGraf, __Signatur)
+go
+
