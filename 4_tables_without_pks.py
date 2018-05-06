@@ -1,8 +1,7 @@
 import json
 
-from common.db import db
 from common.config import DATABASE
-from common.table import find_tables_pks, get_columns
+from common.table import find_tables_pks, get_columns, drop_computed_columns
 
 
 def find_tables_without_pks(tables, table_pks):
@@ -11,20 +10,6 @@ def find_tables_without_pks(tables, table_pks):
         for table in tables
         if not table_pks[table] or
            'HeadClue' in table_pks[table] and table not in ['SingTabl', 'HeadTabl']
-    ]
-
-
-def drop_computed_columns(table, columns):
-    columns_str = ','.join(f"'{column}'" for column in columns)
-    query = (
-        f"SELECT *, TYPE_NAME(system_type_id) as type_name FROM sys.columns "
-        f"WHERE name in ({columns_str}) AND object_id = OBJECT_ID('{table}') "
-        "AND is_computed = 0"
-    )
-    non_computed_columns = db.query(query)
-    return [
-        column['name']
-        for column in non_computed_columns
     ]
 
 

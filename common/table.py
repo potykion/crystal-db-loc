@@ -59,3 +59,17 @@ def find_ru_columns(table):
 
 def get_rows(table):
     return db.query(f'SELECT * FROM {table}')
+
+
+def drop_computed_columns(table, columns):
+    columns_str = ','.join(f"'{column}'" for column in columns)
+    query = (
+        f"SELECT *, TYPE_NAME(system_type_id) as type_name FROM sys.columns "
+        f"WHERE name in ({columns_str}) AND object_id = OBJECT_ID('{table}') "
+        "AND is_computed = 0"
+    )
+    non_computed_columns = db.query(query)
+    return [
+        column['name']
+        for column in non_computed_columns
+    ]
