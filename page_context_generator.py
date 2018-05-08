@@ -81,6 +81,10 @@ if __name__ == '__main__':
         for property_ in properties
     }
 
+    # todo no properties for:
+    # ElemTablNew
+    # GrafTabl
+    # MnOpTabl
     tables_with_dirs = []
     for table in split_tables:
         if table == 'HeatExpn':
