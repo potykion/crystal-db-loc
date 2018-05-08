@@ -46,11 +46,11 @@ def build_context_for_table(table):
     context = {
         'model': table,
         'language_fields': [
-            {'name': field}
+            {'name': field, 'raw': False}
             for field in language_table_columns
         ],
         'invariant_fields': [
-            {'name': field}
+            {'name': field, 'raw': False}
             for field in invariant_table_columns
         ],
         'has_references': has_references,
