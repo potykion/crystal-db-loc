@@ -17,10 +17,15 @@ def get_page_table_columns(table):
         for field in get_columns(table)
         if field not in find_table_pks(table)
     ]
-    table_columns_without_pk_and_computed = drop_computed_columns(
-        table,
-        table_columns_without_pk
-    )
+
+    if table_columns_without_pk:
+        table_columns_without_pk_and_computed = drop_computed_columns(
+            table,
+            table_columns_without_pk
+        )
+    else:
+        table_columns_without_pk_and_computed = table_columns_without_pk
+
     return table_columns_without_pk_and_computed
 
 
@@ -30,6 +35,7 @@ def build_context_for_table(table_and_dir):
     language_table_columns = get_page_table_columns(f'{table}Language')
     try_remove(language_table_columns, f'{table}ID')
     try_remove(language_table_columns, f'LanguageID')
+    try_remove(language_table_columns, 'HeadClue')
 
     invariant_table_columns = get_page_table_columns(f'{table}Invariant')
     try_remove(invariant_table_columns, 'HeadClue')
@@ -71,8 +77,8 @@ if __name__ == '__main__':
     split_tables = [
         table
         for table, type_ in tables_with_types.items()
-        if type_ == 'HAS_RU_COLUMNS' and
-           table not in ['Bibliogr', 'LastModified', 'Properties', 'HeadTabl']
+        if
+        table not in ['Bibliogr', 'LastModified', 'Properties', 'HeadTabl', 'SingTabl']
     ]
 
     properties = db.query('select * from PropertiesInvariant')
@@ -85,6 +91,7 @@ if __name__ == '__main__':
     # ElemTablNew
     # GrafTabl
     # MnOpTabl
+    # EquationTabl
     tables_with_dirs = []
     for table in split_tables:
         if table == 'HeatExpn':
