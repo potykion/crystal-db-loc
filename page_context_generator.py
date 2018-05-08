@@ -92,6 +92,7 @@ if __name__ == '__main__':
     # GrafTabl
     # MnOpTabl
     # EquationTabl
+    # todo NO_RU_COLUMNS requires special context
     tables_with_dirs = []
     for table in split_tables:
         if table == 'HeatExpn':
