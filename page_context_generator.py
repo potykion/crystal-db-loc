@@ -77,8 +77,8 @@ if __name__ == '__main__':
     split_tables = [
         table
         for table, type_ in tables_with_types.items()
-        if
-        table not in ['Bibliogr', 'LastModified', 'Properties', 'HeadTabl', 'SingTabl']
+        if type_ == 'HAS_RU_COLUMNS' and
+           table not in ['Bibliogr', 'LastModified', 'Properties', 'HeadTabl', 'SingTabl']
     ]
 
     properties = db.query('select * from PropertiesInvariant')

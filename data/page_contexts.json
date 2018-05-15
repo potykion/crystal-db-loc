@@ -702,42 +702,5 @@
     "has_references": true,
     "has_sing": false,
     "model_dir": "Solubility"
-  },
-  {
-    "model": "LitrTabl",
-    "language_fields": [],
-    "invariant_fields": [],
-    "has_references": false,
-    "has_sing": false,
-    "model_dir": "References"
-  },
-  {
-    "model": "SistTabl",
-    "language_fields": [],
-    "invariant_fields": [],
-    "has_references": false,
-    "has_sing": false,
-    "model_dir": "Composition"
-  },
-  {
-    "model": "Wavepure",
-    "language_fields": [],
-    "invariant_fields": [],
-    "has_references": false,
-    "has_sing": false,
-    "model_dir": "Transparency"
-  },
-  {
-    "model": "RefrTabl",
-    "language_fields": [
-      {
-        "name": "Referat",
-        "raw": false
-      }
-    ],
-    "invariant_fields": [],
-    "has_references": false,
-    "has_sing": false,
-    "model_dir": "Review"
   }
 ]

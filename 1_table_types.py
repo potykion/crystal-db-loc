@@ -21,15 +21,12 @@ def find_tables_fks(tables):
 
 
 def find_tables_types(tables, table_pks, table_fks):
-    return dict(
-        sorted(
-            (
-                (table, identify_table_type(table, table_pks[table], table_fks[table]))
-                for table in tables
-            ),
-            key=itemgetter(1)
-        )
+    table_types = (
+        (table, identify_table_type(table, table_pks[table], table_fks[table]))
+        for table in tables
     )
+    table_types = sorted(table_types, key=itemgetter(1))
+    return dict(table_types)
 
 
 def identify_table_type(table, fks, pks):
