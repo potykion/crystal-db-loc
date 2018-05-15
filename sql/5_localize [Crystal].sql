@@ -182,7 +182,7 @@ CREATE TABLE dbo.DensTablLanguage
     DensTablID INT NOT NULL,
     LanguageID INT NOT NULL DEFAULT 1,
     MethodD varchar(1999),
-    __MethodD as (left([MethodD],(50)))
+    __MethodD as (CONVERT(VARCHAR(32), HASHBYTES('MD5', MethodD), 2))
 );
 GO
 --- Создаем FK для DensTablLanguage
@@ -217,7 +217,7 @@ CREATE TABLE dbo.DielDissLanguage
     LanguageID INT NOT NULL DEFAULT 1,
     MethodY varchar(1999),
     TangName varchar(25),
-    __MethodY as (left([MethodY],50))
+    __MethodY as (CONVERT(VARCHAR(32), HASHBYTES('MD5', MethodY), 2))
 );
 GO
 --- Создаем FK для DielDissLanguage
@@ -252,7 +252,7 @@ CREATE TABLE dbo.DielectrLanguage
     LanguageID INT NOT NULL DEFAULT 1,
     MethodY varchar(1999),
     Znak varchar(50),
-    __MethodY as (left([MethodY],50))
+    __MethodY as (CONVERT(VARCHAR(32), HASHBYTES('MD5', MethodY), 2))
 );
 GO
 --- Создаем FK для DielectrLanguage
@@ -287,7 +287,7 @@ CREATE TABLE dbo.Elastic1Language
     LanguageID INT NOT NULL DEFAULT 1,
     MethodE varchar(1999),
     ZnE varchar(20),
-    __MethodE as (left([MethodE],50))
+    __MethodE as (CONVERT(VARCHAR(32), HASHBYTES('MD5', MethodE), 2))
 );
 GO
 --- Создаем FK для Elastic1Language
@@ -322,7 +322,7 @@ CREATE TABLE dbo.ElemTablLanguage
     LanguageID INT NOT NULL DEFAULT 1,
     MethodP varchar(512),
     Nazbparam varchar(2),
-    __MethodP as (left([MethodP],(50)))
+    __MethodP as (CONVERT(VARCHAR(32), HASHBYTES('MD5', MethodP), 2))
 );
 GO
 --- Создаем FK для ElemTablLanguage
@@ -356,7 +356,7 @@ CREATE TABLE dbo.ElemTablNewLanguage
     ElemTablNewID INT NOT NULL,
     LanguageID INT NOT NULL DEFAULT 1,
     MethodP varchar(512),
-    __MethodP as (left([MethodP],(50)))
+    __MethodP as (CONVERT(VARCHAR(32), HASHBYTES('MD5', MethodP), 2))
 );
 GO
 --- Создаем FK для ElemTablNewLanguage
@@ -391,7 +391,7 @@ CREATE TABLE dbo.ElOpTablLanguage
     LanguageID INT NOT NULL DEFAULT 1,
     MethodR varchar(1999),
     ZnN1 varchar(50),
-    __MethodR as (left([MethodR],50))
+    __MethodR as (CONVERT(VARCHAR(32), HASHBYTES('MD5', MethodR), 2))
 );
 GO
 --- Создаем FK для ElOpTablLanguage
@@ -426,7 +426,7 @@ CREATE TABLE dbo.EsOpTablLanguage
     LanguageID INT NOT NULL DEFAULT 1,
     MethodP varchar(1999),
     ZnP varchar(50),
-    __MethodP as (left([MethodP],50))
+    __MethodP as (CONVERT(VARCHAR(32), HASHBYTES('MD5', MethodP), 2))
 );
 GO
 --- Создаем FK для EsOpTablLanguage
@@ -494,7 +494,7 @@ CREATE TABLE dbo.HardTablLanguage
     HardTablID INT NOT NULL,
     LanguageID INT NOT NULL DEFAULT 1,
     MethodH varchar(1999),
-    __MethodH as (left([MethodH],(50)))
+    __MethodH as (CONVERT(VARCHAR(32), HASHBYTES('MD5', MethodH), 2))
 );
 GO
 --- Создаем FK для HardTablLanguage
@@ -562,7 +562,7 @@ CREATE TABLE dbo.HeatExpnLanguage
     LanguageID INT NOT NULL DEFAULT 1,
     MethodEx varchar(1999),
     Znak1 varchar(30),
-    __MethodEx as (left([MethodEx],50))
+    __MethodEx as (CONVERT(VARCHAR(32), HASHBYTES('MD5', MethodEx), 2))
 );
 GO
 --- Создаем FK для HeatExpnLanguage
@@ -596,7 +596,7 @@ CREATE TABLE dbo.HeatTablLanguage
     HeatTablID INT NOT NULL,
     LanguageID INT NOT NULL DEFAULT 1,
     MethodC varchar(1999),
-    __MethodC as (left([MethodC],(50)))
+    __MethodC as (CONVERT(VARCHAR(32), HASHBYTES('MD5', MethodC), 2))
 );
 GO
 --- Создаем FK для HeatTablLanguage
@@ -664,7 +664,7 @@ CREATE TABLE dbo.MechTablLanguage
     LanguageID INT NOT NULL DEFAULT 1,
     MethodK varchar(1999),
     ZnK varchar(20),
-    __MethodK as (left([MethodK],50))
+    __MethodK as (CONVERT(VARCHAR(32), HASHBYTES('MD5', MethodK), 2))
 );
 GO
 --- Создаем FK для MechTablLanguage
@@ -698,7 +698,7 @@ CREATE TABLE dbo.MnOpTablLanguage
     MnOpTablID INT NOT NULL,
     LanguageID INT NOT NULL DEFAULT 1,
     MethodK varchar(1999),
-    __MethodK as (left([MethodK],50))
+    __MethodK as (CONVERT(VARCHAR(32), HASHBYTES('MD5', MethodK), 2))
 );
 GO
 --- Создаем FK для MnOpTablLanguage
@@ -766,7 +766,7 @@ CREATE TABLE dbo.NlOpTablLanguage
     LanguageID INT NOT NULL DEFAULT 1,
     MethodR varchar(1999),
     ZnR varchar(20),
-    __MethodR as (left([MethodR],50))
+    __MethodR as (CONVERT(VARCHAR(32), HASHBYTES('MD5', MethodR), 2))
 );
 GO
 --- Создаем FK для NlOpTablLanguage
@@ -866,7 +866,7 @@ CREATE TABLE dbo.PzElTablLanguage
     PzElTablID INT NOT NULL,
     LanguageID INT NOT NULL DEFAULT 1,
     MethodPz varchar(1999),
-    __MethodPz as (left([MethodPz],50))
+    __MethodPz as (CONVERT(VARCHAR(32), HASHBYTES('MD5', MethodPz), 2))
 );
 GO
 --- Создаем FK для PzElTablLanguage
@@ -900,7 +900,7 @@ CREATE TABLE dbo.RefrcIndLanguage
     RefrcIndID INT NOT NULL,
     LanguageID INT NOT NULL DEFAULT 1,
     MethodIn varchar(1999),
-    __MethodIn as (left([MethodIn],50))
+    __MethodIn as (CONVERT(VARCHAR(32), HASHBYTES('MD5', MethodIn), 2))
 );
 GO
 --- Создаем FK для RefrcIndLanguage
@@ -935,7 +935,7 @@ CREATE TABLE dbo.SuspTablLanguage
     LanguageID INT NOT NULL DEFAULT 1,
     MethodS varchar(1999),
     SuspName varchar(50),
-    __MethodS as (left([MethodS],50))
+    __MethodS as (CONVERT(VARCHAR(32), HASHBYTES('MD5', MethodS), 2))
 );
 GO
 --- Создаем FK для SuspTablLanguage

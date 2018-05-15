@@ -46,7 +46,7 @@ CREATE TABLE dbo.ElemTablNewLanguage
     ElemTablNewID INT NOT NULL,
     LanguageID INT NOT NULL DEFAULT 1,
     MethodP varchar(512),
-    __MethodP as (left([MethodP],(50)))
+    __MethodP as (CONVERT(VARCHAR(32), HASHBYTES('MD5', MethodP), 2))
 );
 GO
 --- Создаем FK для ElemTablNewLanguage

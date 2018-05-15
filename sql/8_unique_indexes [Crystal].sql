@@ -53,8 +53,14 @@ ALTER TABLE RefrcIndInvariant ADD CONSTRAINT U_RefrcIndInvariant UNIQUE (HeadClu
 ALTER TABLE RefrcIndLanguage ADD CONSTRAINT U_RefrcIndLanguage UNIQUE (RefrcIndID, LanguageID, __MethodIn)
 ALTER TABLE SuspTablInvariant ADD CONSTRAINT U_SuspTablInvariant UNIQUE (HeadClue, Temper, Suspense, ErrSusp, Bknumber)
 ALTER TABLE SuspTablLanguage ADD CONSTRAINT U_SuspTablLanguage UNIQUE (SuspTablID, LanguageID, SuspName, __MethodS)
+go
+alter table dbo.ConstSelInvariant
+add [__Equation] as (CONVERT(VARCHAR(32), HASHBYTES('MD5', Equation), 2));
+go
+ALTER TABLE ConstSelInvariant ADD CONSTRAINT U_ConstSelInvariant UNIQUE (HeadClue, SingCode, __Equation, NazvSel, ZnachSel, Bknumber)
+go
 alter table dbo.GrafTablLanguage
-add [__Signatur] as (left([Signatur],(50)));
+add [__Signatur] as (CONVERT(VARCHAR(32), HASHBYTES('MD5', Signatur), 2));
 go
 ALTER TABLE GrafTablLanguage ADD CONSTRAINT U_GrafTablLanguage UNIQUE (GrafTablID, LanguageID, NameGraf, __Signatur)
 go

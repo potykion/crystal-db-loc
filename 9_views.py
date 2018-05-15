@@ -24,8 +24,8 @@ def create_compatibility_view(table):
     return f'''CREATE VIEW dbo.{table}
 WITH SCHEMABINDING
 AS select {columns_str}
-from dbo.{language_table}
-join dbo.{invariant_table} on
+from dbo.{invariant_table}
+left outer join dbo.{language_table} on
 {table}Language.{language_table_fk} = {table}Invariant.{invariant_table_pk}
 where LanguageID = 1
 go'''
@@ -63,3 +63,9 @@ if __name__ == '__main__':
                 continue
 
             print(view_str, file=f)
+
+        print('''DROP VIEW [dbo].[HeatExpn2]
+GO
+CREATE VIEW [dbo].[HeatExpn2] AS
+Select * FROM HeatExpn
+GO''', file=f)

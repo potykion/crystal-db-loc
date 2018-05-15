@@ -50,9 +50,20 @@ def identify_columns_types(table, columns):
 
 
 def get_computed_column_formula(table, column):
-    columns = db.query(
-        f"SELECT * FROM sys.computed_columns WHERE name = '{column}' and object_id = OBJECT_ID('{table}')")
-    return columns.first()['definition']
+    query = f"SELECT * FROM sys.computed_columns WHERE name = '{column}' and object_id = OBJECT_ID('{table}')"
+    computed_columns = db.query(query)
+    computed_column = computed_columns.first()
+
+    formula: str = computed_column['definition']
+    name = computed_column['name']
+
+    if formula.startswith('(left') and name.startswith('__'):
+        related_computed_column = name.strip('_')
+        result_formula = f"(CONVERT(VARCHAR(32), HASHBYTES('MD5', {related_computed_column}), 2))"
+    else:
+        result_formula = formula
+
+    return result_formula
 
 
 class Localizer:
