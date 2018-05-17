@@ -3,6 +3,13 @@ import json
 from common.db import db
 from common.table import get_columns, find_table_pks, drop_computed_columns
 
+PROPERTIES_QUERY = '''
+select * from dbo.PropertiesLanguage 
+join dbo.PropertiesInvariant 
+on PropertiesLanguage.PropertiesID = PropertiesInvariant.NOMPROP 
+where LanguageID = 1
+'''
+
 
 def try_remove(list_, item):
     try:
@@ -29,8 +36,8 @@ def get_page_table_columns(table):
     return table_columns_without_pk_and_computed
 
 
-def build_context_for_table(table_and_dir):
-    table, table_dir = table_and_dir
+def build_context_for_table(table_with_properties):
+    table, properties = table_with_properties
 
     language_table_columns = get_page_table_columns(f'{table}Language')
     try_remove(language_table_columns, f'{table}ID')
@@ -64,7 +71,8 @@ def build_context_for_table(table_and_dir):
         ],
         'has_references': has_references,
         'has_sing': has_sing,
-        'model_dir': table_dir
+        'model_dir': properties['TableNameUrl'],
+        'model_id': properties['NOMPROP']
     }
 
     return context
@@ -81,9 +89,9 @@ if __name__ == '__main__':
            table not in ['Bibliogr', 'LastModified', 'Properties', 'HeadTabl', 'SingTabl']
     ]
 
-    properties = db.query('select * from PropertiesInvariant')
-    property_tables = {
-        property_['TableName']: property_['TableNameUrl']
+    properties = db.query(PROPERTIES_QUERY)
+    table_properties = {
+        property_['TableName']: property_
         for property_ in properties
     }
 
@@ -93,17 +101,17 @@ if __name__ == '__main__':
     # MnOpTabl
     # EquationTabl
     # todo NO_RU_COLUMNS requires special context
-    tables_with_dirs = []
+    tables_with_properties = []
     for table in split_tables:
         if table == 'HeatExpn':
-            tables_with_dirs.append((table, 'Thermal_Expansion'))
-            tables_with_dirs.append((table, 'Thermal_Conductivity'))
-        elif table in property_tables:
-            tables_with_dirs.append((table, property_tables[table]))
+            tables_with_properties.append((table, table_properties['HeatExpn0']))
+            tables_with_properties.append((table, table_properties['HeatExpn1']))
+        elif table in table_properties:
+            tables_with_properties.append((table, table_properties[table]))
         else:
             print(table)
 
-    contexts = list(map(build_context_for_table, tables_with_dirs))
+    contexts = list(map(build_context_for_table, tables_with_properties))
 
     with open('data/page_contexts.json', 'w', encoding='utf-8') as f:
         json.dump(contexts, f)
