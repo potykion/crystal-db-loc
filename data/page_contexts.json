@@ -732,18 +732,22 @@
     "model_id": 8
   },
   {
-    "model": "LitrTabl",
-    "language_fields": [],
-    "invariant_fields": [],
-    "has_references": false,
-    "has_sing": false,
-    "model_dir": "References",
-    "model_id": 29
-  },
-  {
     "model": "SistTabl",
     "language_fields": [],
-    "invariant_fields": [],
+    "invariant_fields": [
+      {
+        "name": "ElemNumb",
+        "raw": false
+      },
+      {
+        "name": "MinValue",
+        "raw": false
+      },
+      {
+        "name": "MaxValue",
+        "raw": false
+      }
+    ],
     "has_references": false,
     "has_sing": false,
     "model_dir": "Composition",
@@ -752,24 +756,19 @@
   {
     "model": "Wavepure",
     "language_fields": [],
-    "invariant_fields": [],
-    "has_references": false,
-    "has_sing": false,
-    "model_dir": "Transparency",
-    "model_id": 21
-  },
-  {
-    "model": "RefrTabl",
-    "language_fields": [
+    "invariant_fields": [
       {
-        "name": "Referat",
+        "name": "Leftwave",
+        "raw": false
+      },
+      {
+        "name": "Rightwave",
         "raw": false
       }
     ],
-    "invariant_fields": [],
-    "has_references": false,
-    "has_sing": false,
-    "model_dir": "Review",
-    "model_id": 1
+    "has_references": true,
+    "has_sing": true,
+    "model_dir": "Transparency",
+    "model_id": 21
   }
 ]
